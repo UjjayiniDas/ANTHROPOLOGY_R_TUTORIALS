@@ -1,0 +1,271 @@
+---
+title: "Packages and data wrangling with base R"
+output: 
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+tutorial:
+  id: "PackagesAndDataWranglingWithBaseR"
+  version: 0.5
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(gradethis)
+knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)
+knitr::opts_chunk$set(echo = TRUE)
+learnr::tutorial_options(
+  exercise.timelimit = 60)
+```
+Tutorial written by Madeline Brown and modified for learnr
+
+<a class="btn btn-primary btn-sm" href="https://maddiebrown.github.io/ANTH630/ANTH630syllabus.html" role="button">ANTH630 Home</a>
+
+## Loading packages and data
+
+### Installing  and loading packages 
+R comes with basic functions, but you need to install packages in order to really maximize R's functionality. You can install a package as follows:
+```{r eval=F}
+install.packages("psych")
+```
+Packages can also be installed by by using the "Tools" or "Install Packages" menu in RStudio. 
+
+Packages only need to be installed once, but must be loaded with each new session of R. Let's load the `psych` package. We will use this later to produce summary statistics. Use the `library()` function to load a package. 
+```{r}
+library(psych)
+```
+
+### Setting the working directory
+The working directory is where R will automatically look to find files to load into R and where any files you create will be exported to. You can save a lot of time by setting and using a working directory. 
+ 
+```{r eval=F}
+getwd() #shows you the working directory
+setwd("path") 
+#windows: "C:\Users\username\Desktop\filename.csv"
+#mac: ""/Users/username/Desktop/filename.csv""
+```
+
+### Reading and writing data
+To read in a data file, we can use the `read.csv( )` function. If the data file is within your working directory, you can simply refer to the file name. On a mac you can also right click on the file and hold down the option key to copy the file pathname. 
+```{r}
+#CityInfo <- read.csv("pathname/CityInfo.csv")
+#CityInfo<-read.csv("CityInfo.csv")
+```
+
+```{r}
+CityInfo  <- read.csv("https://maddiebrown.github.io/ANTH630/data/Cityinfo.csv")
+```
+
+```{r}
+#write.csv(CityInfo, "CityInfo2.csv")
+```
+
+## Exploratory data analysis
+Check out this new `CityInfo` dataframe.
+```{r}
+CityInfo
+```
+Before we do anything else, let's make a quick boxplot of the sunshine across regions in our dataframe.
+```{r}
+boxplot(Sunshine_per~Region,data=CityInfo, xlab="Region",ylab="Sunshine %", main="Sunshine by US region",col="goldenrod")
+```
+
+Now let's examine our dataframe. Look at the first six rows
+```{r}
+head(CityInfo)
+```
+Examine the dataframe structure
+```{r}
+str(CityInfo)
+```
+And look at summary statistics for the dataframe
+```{r}
+summary(CityInfo)
+psych::describe(CityInfo)
+```
+
+### Try it
+Recalling what we learned about subsetting dataframes, try to complete the following tasks:
+
+1. Select the `Year` column.
+
+```{r exercise1-1, exercise = TRUE}
+
+```
+
+```{r exercise1-1-solution}
+CityInfo$Year
+# Or
+CityInfo[,7]
+```
+
+```{r exercise1-1-check}
+grade_result(
+  pass_if(~ identical(.result, CityInfo$Year), "Good Job!"),
+  fail_if(~ TRUE)
+)
+```
+
+2. Select the 5th element of the `Year` column.
+
+```{r exercise1-2, exercise = TRUE}
+```
+
+```{r exercise1-2-solution}
+CityInfo$Year[5]
+```
+
+```{r exercise1-2-check}
+grade_code("Excellent!")
+```
+
+3. Select the 5th row of the `CityInfo` dataframe.
+
+```{r exercise1-3, exercise = TRUE}
+```
+
+```{r exercise1-3-solution}
+CityInfo[5,]
+```
+
+```{r exercise1-3-check}
+grade_code("Excellent!")
+```
+
+4. Select the 5th and 6th rows.
+
+```{r exercise1-4, exercise = TRUE}
+```
+
+```{r exercise1-4-solution}
+CityInfo[c(5,6),]
+```
+
+```{r exercise1-4-check}
+grade_code("Excellent!")
+```
+
+## Logical tests and dataframe subsetting
+You can subset dataframes in numerous ways. Last week we discussed the `subset()`, `$`, and `[,]` functions. We can also use logical tests and specific functions to subset dataframes based on conditionals. 
+```{r}
+CityInfo[CityInfo$Region == "W" & CityInfo$State == "CA", ]
+CityInfo[CityInfo$Region == "W" | CityInfo$State == "CA", ]
+CityInfo[CityInfo$Region == "W" & CityInfo$State != "CA", ]
+```
+
+Suppose we want to subset the city names based on whether they are in the NE and W regions. We can use `%in%`.
+```{r}
+CityInfo$Region  %in% c("NE", "W") # what does this return?
+CityInfo[CityInfo$Region %in% c("NE", "W"),"City"] # what does this return?
+```
+
+There are also additional functions that allow you to match subsets of dataframes based on particular values. 
+```{r}
+CityInfo
+
+which(CityInfo$Populationmetro_2016 > 3475000) # this returns the index of the value from the vector
+
+CityInfo[which(CityInfo$Populationmetro_2016 > 3475000),] # this subsets the whole dataframe for only the cities with populations over 3475000.
+
+```
+
+## Regular Expressions
+
+Text can be searched using a standardized lexicon called *regular expressions*. [Read more](https://en.wikipedia.org/wiki/Regular_expression) on regular expressions and how to [se them]](https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions) for data science. Regular expressions are also helpful when pasting labels or programming figure titles/captions in a standardized way (for example, adding new lines). Here let's use `str_detect()` to pull out some strings with regular expressions.
+
+```{r}
+library(tidyverse)
+
+#any cities ending in "s"
+CityInfo$City[str_detect(CityInfo$City,"s$")]
+
+# which rows have a city ending in "s"
+str_detect(CityInfo$City,"s$")
+
+#any cities with a space in the name
+CityInfo$City[str_detect(CityInfo$City, ". .")]
+
+
+
+```
+
+Some basics with regular expressions:
+
+- `$` means the end of a string (line, e.g. whole string, not within string)
+- `^` means the start of a string
+- `[]` means to search for any of the included characters within that bracket at that position. Simply listing characters will lead to direct matches, while you can also create ranges and exclusions.
+- `.` can stand in for any character except a return (new line)
+- `\n` means a new line
+- `|` means "or", just as in base R
+- Because certain characters have a meaning in regular expressions (e.g. `.` and `\`), you need to *escape* the character first in order to directly match it. See [here](https://cran.r-project.org/web/packages/stringr/vignettes/regular-expressions.html) for details. 
+- You can look for patterns that repeat or restrict a search to only digits or letters. This can be helpful for data validation or searching for standardized strings such as zip codes, phone numbers, or names.
+
+### Try-it
+
+1. Select all city names starting with "s".
+
+```{r exercise2-1, exercise = TRUE}
+
+```
+
+```{r exercise2-1-solution}
+CityInfo$City[str_detect(CityInfo$City,"^s")]
+#why doesn't this work? R is case sensitive
+CityInfo$City[str_detect(CityInfo$City,"^S")]
+```
+
+```{r exercise2-1-check}
+grade_result(
+  pass_if(~ identical(.result, CityInfo$City[str_detect(CityInfo$City,"^s")]), "Good Job!"),
+  fail_if(~ TRUE)
+)
+```
+
+
+2. Print all city names for cities founded in the 1600s or 1700s
+
+```{r exercise2-2, exercise = TRUE}
+
+```
+
+```{r exercise2-2-solution}
+CityInfo$City[str_detect(CityInfo$Year,"1[6-7].")]
+```
+
+```{r exercise2-2-check}
+grade_result(
+  pass_if(~ identical(.result, CityInfo$City[str_detect(CityInfo$Year,"1[6-7].")]), "Excellent!"),
+  fail_if(~ TRUE)
+)
+```
+
+3. Print the name and year of founding for all cities with either "as" or "il" in the name.
+
+```{r exercise2-3, exercise = TRUE}
+
+```
+
+```{r exercise2-3-solution}
+CityInfo[str_detect(CityInfo$City,"as|il"), c("City", "Year")]
+```
+
+```{r exercise2-3-check}
+grade_result(
+  pass_if(~ identical(.result, CityInfo[str_detect(CityInfo$City,"as|il"), c("City", "Year")]), "Great!"),
+  fail_if(~ TRUE)
+)
+```
+
+### Data were obtained from several sources: 
+
+[Sports teams in the Big 4 (NFL, MLB, NMA, NHL) and metro population estimates](https://en.wikipedia.org/wiki/List_of_American_and_Canadian_cities_by_number_of_major_professional_sports_franchises)
+
+[Bike commuters 1](http://bikeleague.org/sites/default/files/Where_We_Ride_2014_data_web.pdf#12)
+
+[Bike commuters 2](https://en.wikipedia.org/wiki/List_of_U.S._cities_with_most_bicycle_commuters)
+
+[Year of Foundation](https://en.wikipedia.org/wiki/List_of_cities_in_the_Americas_by_year_of_foundation)
+
+[Sunniest cities in US](https://www.nerdwallet.com/blog/sunniest-cities/) (Using National oceanic atmmospheric administation data. Average percent of possible sunshine)
+
+[Regions census divisions](https://en.wikipedia.org/wiki/List_of_regions_of_the_United_States)
