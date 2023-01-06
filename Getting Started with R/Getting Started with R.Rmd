@@ -172,16 +172,16 @@ str(x)
 
 First let's make a few different objects and then examine them with `class()`. Try to predict in advance which data class each object will be.
 
-```{r}
+```{r obj-class}
 tree <- "a third tree"
 x <- TRUE
 y <- "5"
 z <- 5
 ```
 
-Create the objects first in the following code chunk as shown above and then observe their `class`.
+Observe the `class` of the objects.
 
-```{r exercise2-1_code_sandbox, exercise=TRUE, exercise.cap="object_class"}
+```{r exercise2-1_code_sandbox, exercise=TRUE, exercise.cap="object_class", exercise.setup="obj-class"}
 ```
 
 ## Working with vectors and dataframes
@@ -310,7 +310,10 @@ cbind(Cities, State, Sunshine_per) # combining the vectors
 
 You'll notice that `cbind()` coerces the data into characters. R has multiple ways to combine vectors into dataframes. Here we use the `data.frame()` function. 
 
-```{r}
+```{r create-cityinfo}
+Cities <- Cities <- c("New York", "Los Angeles", "San Francisco", "Chicago","Minneapolis","Portland")
+State <- c("NY","CA","CA","IL","MN","OR")
+Sunshine_per <- c(58, 73, 66, 54, 58, 48)
 CityInfo<-data.frame(Cities,State,Sunshine_per)
 CityInfo
 ```
@@ -387,7 +390,7 @@ subset(CityInfo, State=="CA" | Sunshine_per >55)
 
 Add the code to display all columns for all the rows in which the state is California.
 
-```{r exercise4-1, exercise = TRUE}
+```{r exercise4-1, exercise.setup="create-cityinfo", exercise = TRUE}
 ```
 
 ```{r exercise4-1-solution}
@@ -403,7 +406,7 @@ grade_code("Great work!")
 Using the `!` operator, we can also select all rows which are 'not equal' to a given value. Select all the rows for cities outside of California.
 
 
-```{r exercise4-2, exercise = TRUE}
+```{r exercise4-2,exercise.setup="create-cityinfo", exercise = TRUE}
 ```
 
 ```{r exercise4-2-solution}
@@ -475,7 +478,7 @@ In an ideal world, every data cell would be filled in every data table...but thi
 
 R codes missing values as `NA` (not "NA" which is a character/string element). Having missing values in a dataframe can cause some functions to fail. Check out the following example.
 
-```{r}
+```{r missingparts}
 missingparts <- c(1, 2, 3,  NA)
 mean(missingparts) # what is the result?
 mean(missingparts, na.rm=T) # we can tell the function to ignore any NA values in the data
@@ -486,6 +489,5 @@ missingparts[is.na(missingparts)] #you can also subset out only the values that 
 
 How do you know you have missing values rather than another issue in your code? There are a few functions that allow us to pick out the NAs. Try examining the `missingparts` vector with `str()`, `summary()`, and `is.na()`. What is the result of each of these functions and how might this output be useful?
 
-```{r exercise7-1_code_sandbox, exercise=TRUE, exercise.cap="missing_value"}
-missingparts <- c(1, 2, 3,  NA)
+```{r exercise7-1_code_sandbox, exercise.setup="missingparts",exercise=TRUE, exercise.cap="missing_value"}
 ```

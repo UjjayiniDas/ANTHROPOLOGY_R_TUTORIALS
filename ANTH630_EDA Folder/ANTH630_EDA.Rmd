@@ -28,7 +28,7 @@ In exploratory data analysis, we often begin by calculating summary statistics f
 
 Load in data and examine the structure.
 
-```{r}
+```{r prepare-cityinfo, include=TRUE}
 
 CityInfo  <- read.csv("D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/Cityinfo.csv")
 str(CityInfo)
@@ -58,7 +58,7 @@ Often, we want to calculate numerous descriptive statistics simultaneously. Ther
 
 Using the `describe()` function, calculate summary statistics for the entire `CityInfo` dataframe.
 
-```{r exercise1, exercise=TRUE}
+```{r exercise1, exercise=TRUE, exercise.setup="prepare-cityinfo"}
 ```
 
 ```{r exercise1-check}
@@ -72,7 +72,7 @@ grade_result(
 
 Calculate summary statistics for only the number of sports teams per city.
 
-```{r exercise2, exercise=TRUE}
+```{r exercise2, exercise.setup= "prepare-cityinfo", exercise=TRUE}
 ```
 
 ```{r exercise2-check}
@@ -89,7 +89,7 @@ The `describeBy()` function is useful when you want to summarize numerous variab
 Use `describeBy()` to generate summary statistics about the number of sports teams per city by region. Assign the results to a new object called `Sportstats`. Print the object `Sportstats`.
 
 
-```{r exercise3, exercise=TRUE}
+```{r exercise3,exercise.setup= "prepare-cityinfo", exercise=TRUE}
 ```
 
 ```{r exercise3-solution}
@@ -133,7 +133,7 @@ table(CityInfo$Region)
 
 Find out the variation in amount of `sunshine` for the cities. 
 
-```{r exercise4, exercise=TRUE}
+```{r exercise4,exercise.setup= "prepare-cityinfo", exercise=TRUE}
 ```
 
 ```{r exercise4-check}
@@ -153,7 +153,7 @@ Oftentimes, data are not in the most useful format for particular analyses. We h
 These data are sea otter counts from 2017 and 2018 in Alaska.
 
 First read in and examine the data.
-```{r}
+```{r prepare-otter}
 otter <- read.csv("D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/sea_otter_counts_2017&2018_CLEANDATA.csv")
 str(otter)
 ```
@@ -179,7 +179,7 @@ aggregate(n_otter~site_name, FUN=mean, data = otter)
 
 Using `order()` rearrange the dataframe by the total number of otters per site so that the sites with the most otters are at the top of the data. Store your resulting data frame in an object called `notterpersite`. Print it.
 
-```{r exercise5, exercise=TRUE}
+```{r exercise5, exercise.setup="prepare-otter", exercise=TRUE}
 ```
 
 <div id="exercise5-hint">
@@ -190,7 +190,7 @@ Using `order()` rearrange the dataframe by the total number of otters per site s
 
 
 ```{r exercise5-solution}
-notterpersite <- aggregate(formula=n_otter ~ site_name, FUN=sum, data=otter)
+notterpersite <- aggregate(n_otter~site_name, FUN=sum, data=otter)
 notterpersite<- notterpersite[order(notterpersite$n_otter,decreasing=T),]
 notterpersite
 ```
@@ -223,7 +223,7 @@ Practice your data wrangling and exploratory data analysis skills by answering t
 
 Select the latitude and longitude of the site with the highest number of otter sightings on any single day.
 
-```{r exercise7, exercise=TRUE}
+```{r exercise7, exercise.setup= "prepare-otter",exercise=TRUE}
 ```
 
 ```{r exercise7-check}
@@ -237,7 +237,7 @@ grade_result(
 
 How many observations come from Big Tree Day?
 
-```{r exercise8, exercise = TRUE}
+```{r exercise8, exercise.setup= "prepare-otter", exercise = TRUE}
 ```
 
 ```{r exercise8-check}
@@ -251,7 +251,7 @@ grade_result(
 
 What was the total number of otters observed over the course of 2017?
 
-```{r exercise9, exercise= TRUE}
+```{r exercise9,exercise.setup= "prepare-otter", exercise= TRUE}
 ```
 
 ```{r exercise9-check}
@@ -286,7 +286,7 @@ ifelse(CityInfo$Region=="MW" & CityInfo$Bikecom_per>2,"yes","nope")
 
 **Tip:** Add a new column to `CityInfo` dataframe named `sunlevel` to store the new information! Bind the `sunshine` amount and `sunlevel` columns together to display!
 
-```{r exercise10, exercise=TRUE}
+```{r exercise10,exercise.setup= "prepare-cityinfo", exercise=TRUE}
 ```
 
 ```{r exercise10-solution}
@@ -397,7 +397,7 @@ text(1:4,aggregate(Bikecom_per ~ Region,FUN=mean, data=CityInfo)$Bikecom_per,"Ad
 
 Label the bike commuter boxplot with the number of cities per region (that is, the n for each boxplot). Set the label up so that it will automatically update if the number of observations change. That is, find the number algorithmically rather than manually setting the number.
 
-```{r exercise11, exercise=TRUE}
+```{r exercise11, exercise.setup= "prepare-cityinfo",exercise=TRUE}
 ```
 
 ```{r exercise11-solution}
@@ -445,7 +445,7 @@ plot(CityInfo$Sunshine_per,CityInfo$Bikecom_per,col=factor(CityInfo$Region),pch=
 In the figures above, how do we know which symbol or color refers to which region? We have to make a legend. Try using the `legend()` to add a legend to your scatterplot. If you're stuck, take a look at the `legend()` help file.
 
 
-```{r exercise12-practice, exercise=TRUE}
+```{r exercise12-practice, exercise.setup= "prepare-cityinfo",exercise=TRUE}
 ```
 
 <div id="exercise12-practice-hint">

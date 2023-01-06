@@ -312,8 +312,7 @@ object will be.</p>
 x &lt;- TRUE
 y &lt;- &quot;5&quot;
 z &lt;- 5</code></pre>
-<p>Create the objects first in the following code chunk as shown above
-and then observe their <code>class</code>.</p>
+<p>Observe the <code>class</code> of the objects.</p>
 <div class="tutorial-exercise" data-label="exercise2-1_code_sandbox"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0">
@@ -470,7 +469,10 @@ cbind(Cities, State, Sunshine_per) # combining the vectors</code></pre>
 <p>You’ll notice that <code>cbind()</code> coerces the data into
 characters. R has multiple ways to combine vectors into dataframes. Here
 we use the <code>data.frame()</code> function.</p>
-<pre class="r"><code>CityInfo&lt;-data.frame(Cities,State,Sunshine_per)
+<pre class="r"><code>Cities &lt;- Cities &lt;- c(&quot;New York&quot;, &quot;Los Angeles&quot;, &quot;San Francisco&quot;, &quot;Chicago&quot;,&quot;Minneapolis&quot;,&quot;Portland&quot;)
+State &lt;- c(&quot;NY&quot;,&quot;CA&quot;,&quot;CA&quot;,&quot;IL&quot;,&quot;MN&quot;,&quot;OR&quot;)
+Sunshine_per &lt;- c(58, 73, 66, 54, 58, 48)
+CityInfo&lt;-data.frame(Cities,State,Sunshine_per)
 CityInfo</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -578,8 +580,6 @@ state is California.</p>
 <div class="tutorial-exercise" data-label="exercise4-1"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0">
-<pre class="text"><code>Cities &lt;- c(&quot;New York&quot;, &quot;Los Angeles&quot;, &quot;San Francisco&quot;, &quot;Chicago&quot;,&quot;Minneapolis&quot;,&quot;Portland&quot;)
-CityInfo&lt;-data.frame(Cities,State,Sunshine_per)</code></pre>
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
 </div>
 <div class="tutorial-exercise-support" data-label="exercise4-1-solution"
@@ -625,13 +625,13 @@ for this.</p>
 <pre><code>## [1] 357</code></pre>
 <p>We can also examine the spread of the data by making a histogram.</p>
 <pre class="r"><code>hist(CityInfo$Sunshine_per)</code></pre>
-<p><img src="Getting-Started-with-R_files/figure-html/unnamed-chunk-32-1.png" width="624" /></p>
+<p><img src="Getting-Started-with-R_files/figure-html/unnamed-chunk-30-1.png" width="624" /></p>
 <p>This doesn’t look the best, so we might want to update the bin size
 and add a title. We don’t have many observations here, but you can see
 how in principle, adjusting the bin size can change your interpretation
 of the data distribution.</p>
 <pre class="r"><code>hist(CityInfo$Sunshine_per, breaks=3,main=&quot;Histogram of City Sunshine&quot;, xlab=&quot;Sunshine percent&quot;, ylab=&quot;Frequency&quot;)</code></pre>
-<p><img src="Getting-Started-with-R_files/figure-html/unnamed-chunk-33-1.png" width="624" /></p>
+<p><img src="Getting-Started-with-R_files/figure-html/unnamed-chunk-31-1.png" width="624" /></p>
 </div>
 </div>
 <div id="section-vector-arithmetic" class="section level2">
@@ -697,7 +697,6 @@ be useful?</p>
 <div class="tutorial-exercise" data-label="exercise7-1_code_sandbox"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0">
-<pre class="text"><code>missingparts &lt;- c(1, 2, 3,  NA)</code></pre>
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"missing_value"}</script>
 </div>
 <p>
@@ -826,18 +825,22 @@ learnr:::store_exercise_cache(structure(list(label = "exercise2-1_code_sandbox",
 "library(gradethis)", "library(psych)", "knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)", 
 "knitr::opts_chunk$set(echo = TRUE)", "learnr::tutorial_options(", 
 "  exercise.timelimit = 60)"), chunk_opts = list(label = "setup", 
-    include = FALSE)), setup = NULL, chunks = list(list(label = "exercise2-1_code_sandbox", 
-    code = "\n\n", opts = list(label = "\"exercise2-1_code_sandbox\"", 
-        exercise = "TRUE", exercise.cap = "\"object_class\""), 
-    engine = "r")), code_check = NULL, error_check = NULL, check = NULL, 
-    solution = NULL, tests = NULL, options = list(eval = FALSE, 
-        echo = TRUE, results = "markup", tidy = FALSE, tidy.opts = NULL, 
-        collapse = FALSE, prompt = FALSE, comment = NA, highlight = FALSE, 
-        size = "normalsize", background = "#F7F7F7", strip.white = TRUE, 
-        cache = 0, cache.path = "Getting-Started-with-R_cache/html/", 
-        cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
-        autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "Getting-Started-with-R_files/figure-html/", 
+    include = FALSE)), setup = "tree <- \"a third tree\"\nx <- TRUE\ny <- \"5\"\nz <- 5", 
+    chunks = list(list(label = "obj-class", code = "tree <- \"a third tree\"\nx <- TRUE\ny <- \"5\"\nz <- 5", 
+        opts = list(label = "\"obj-class\""), engine = "r"), 
+        list(label = "exercise2-1_code_sandbox", code = "\n\n", 
+            opts = list(label = "\"exercise2-1_code_sandbox\"", 
+                exercise = "TRUE", exercise.cap = "\"object_class\"", 
+                exercise.setup = "\"obj-class\""), engine = "r")), 
+    code_check = NULL, error_check = NULL, check = NULL, solution = NULL, 
+    tests = NULL, options = list(eval = FALSE, echo = TRUE, results = "markup", 
+        tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
+        comment = NA, highlight = FALSE, size = "normalsize", 
+        background = "#F7F7F7", strip.white = TRUE, cache = 0, 
+        cache.path = "Getting-Started-with-R_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "Getting-Started-with-R_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -849,8 +852,8 @@ learnr:::store_exercise_cache(structure(list(label = "exercise2-1_code_sandbox",
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
         label = "exercise2-1_code_sandbox", exercise = TRUE, 
-        exercise.cap = "object_class", out.width.px = 624, out.height.px = 384, 
-        params.src = "exercise2-1_code_sandbox, exercise=TRUE, exercise.cap=\"object_class\"", 
+        exercise.cap = "object_class", exercise.setup = "obj-class", 
+        out.width.px = 624, out.height.px = 384, params.src = "exercise2-1_code_sandbox, exercise=TRUE, exercise.cap=\"object_class\", exercise.setup=\"obj-class\"", 
         fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -1036,11 +1039,13 @@ learnr:::store_exercise_cache(structure(list(label = "exercise4-1", global_setup
 "library(gradethis)", "library(psych)", "knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)", 
 "knitr::opts_chunk$set(echo = TRUE)", "learnr::tutorial_options(", 
 "  exercise.timelimit = 60)"), chunk_opts = list(label = "setup", 
-    include = FALSE)), setup = NULL, chunks = list(list(label = "exercise4-1", 
-    code = "Cities <- c(\"New York\", \"Los Angeles\", \"San Francisco\", \"Chicago\",\"Minneapolis\",\"Portland\")\nCityInfo<-data.frame(Cities,State,Sunshine_per)", 
-    opts = list(label = "\"exercise4-1\"", exercise = "TRUE", 
-        echo = "FALSE"), engine = "r")), code_check = NULL, error_check = NULL, 
-    check = structure("grade_code(\"Great work!\")", chunk_opts = list(
+    include = FALSE)), setup = "Cities <- Cities <- c(\"New York\", \"Los Angeles\", \"San Francisco\", \"Chicago\",\"Minneapolis\",\"Portland\")\nState <- c(\"NY\",\"CA\",\"CA\",\"IL\",\"MN\",\"OR\")\nSunshine_per <- c(58, 73, 66, 54, 58, 48)\nCityInfo<-data.frame(Cities,State,Sunshine_per)\nCityInfo", 
+    chunks = list(list(label = "create-cityinfo", code = "Cities <- Cities <- c(\"New York\", \"Los Angeles\", \"San Francisco\", \"Chicago\",\"Minneapolis\",\"Portland\")\nState <- c(\"NY\",\"CA\",\"CA\",\"IL\",\"MN\",\"OR\")\nSunshine_per <- c(58, 73, 66, 54, 58, 48)\nCityInfo<-data.frame(Cities,State,Sunshine_per)\nCityInfo", 
+        opts = list(label = "\"create-cityinfo\""), engine = "r"), 
+        list(label = "exercise4-1", code = "\n\n", opts = list(
+            label = "\"exercise4-1\"", exercise.setup = "\"create-cityinfo\"", 
+            exercise = "TRUE"), engine = "r")), code_check = NULL, 
+    error_check = NULL, check = structure("grade_code(\"Great work!\")", chunk_opts = list(
         label = "exercise4-1-check")), solution = structure("CityInfo[CityInfo$State==\"CA\",] ", chunk_opts = list(
         label = "exercise4-1-solution")), tests = NULL, options = list(
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
@@ -1060,10 +1065,10 @@ learnr:::store_exercise_cache(structure(list(label = "exercise4-1", global_setup
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
-        label = "exercise4-1", exercise = TRUE, code = c("Cities <- c(\"New York\", \"Los Angeles\", \"San Francisco\", \"Chicago\",\"Minneapolis\",\"Portland\")", 
-        "CityInfo<-data.frame(Cities,State,Sunshine_per)"), out.width.px = 624, 
-        out.height.px = 384, params.src = "exercise4-1, exercise = TRUE, echo=FALSE", 
-        fig.num = 0, exercise.df_print = "paged"), engine = "r", 
+        label = "exercise4-1", exercise.setup = "create-cityinfo", 
+        exercise = TRUE, out.width.px = 624, out.height.px = 384, 
+        params.src = "exercise4-1, exercise.setup=\"create-cityinfo\", exercise = TRUE", 
+        fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
  
@@ -1080,31 +1085,36 @@ learnr:::store_exercise_cache(structure(list(label = "exercise4-2", global_setup
 "library(gradethis)", "library(psych)", "knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)", 
 "knitr::opts_chunk$set(echo = TRUE)", "learnr::tutorial_options(", 
 "  exercise.timelimit = 60)"), chunk_opts = list(label = "setup", 
-    include = FALSE)), setup = NULL, chunks = list(list(label = "exercise4-2", 
-    code = "\n\n", opts = list(label = "\"exercise4-2\"", exercise = "TRUE"), 
-    engine = "r")), code_check = NULL, error_check = NULL, check = structure("grade_code(\"Good job!\")", chunk_opts = list(
-    label = "exercise4-2-check")), solution = structure("CityInfo[CityInfo$State!=\"CA\",] ", chunk_opts = list(
-    label = "exercise4-2-solution")), tests = NULL, options = list(
-    eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
-    tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
-    highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-    strip.white = TRUE, cache = 0, cache.path = "Getting-Started-with-R_cache/html/", 
-    cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
-    cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
-    fig.align = "default", fig.path = "Getting-Started-with-R_files/figure-html/", 
-    dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
-    fig.width = 6.5, fig.height = 4, fig.env = "figure", fig.cap = NULL, 
-    fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, fig.pos = "", 
-    out.width = 624, out.height = NULL, out.extra = NULL, fig.retina = 2, 
-    external = TRUE, sanitize = FALSE, interval = 1, aniopts = "controls,loop", 
-    warning = TRUE, error = FALSE, message = TRUE, render = NULL, 
-    ref.label = NULL, child = NULL, engine = "r", split = FALSE, 
-    include = TRUE, purl = TRUE, max.print = 1000, exercise.timelimit = 60, 
-    exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
-    exercise.error.check.code = "gradethis_error_checker()", 
-    label = "exercise4-2", exercise = TRUE, out.width.px = 624, 
-    out.height.px = 384, params.src = "exercise4-2, exercise = TRUE", 
-    fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
+    include = FALSE)), setup = "Cities <- Cities <- c(\"New York\", \"Los Angeles\", \"San Francisco\", \"Chicago\",\"Minneapolis\",\"Portland\")\nState <- c(\"NY\",\"CA\",\"CA\",\"IL\",\"MN\",\"OR\")\nSunshine_per <- c(58, 73, 66, 54, 58, 48)\nCityInfo<-data.frame(Cities,State,Sunshine_per)\nCityInfo", 
+    chunks = list(list(label = "create-cityinfo", code = "Cities <- Cities <- c(\"New York\", \"Los Angeles\", \"San Francisco\", \"Chicago\",\"Minneapolis\",\"Portland\")\nState <- c(\"NY\",\"CA\",\"CA\",\"IL\",\"MN\",\"OR\")\nSunshine_per <- c(58, 73, 66, 54, 58, 48)\nCityInfo<-data.frame(Cities,State,Sunshine_per)\nCityInfo", 
+        opts = list(label = "\"create-cityinfo\""), engine = "r"), 
+        list(label = "exercise4-2", code = "\n\n", opts = list(
+            label = "\"exercise4-2\"", exercise.setup = "\"create-cityinfo\"", 
+            exercise = "TRUE"), engine = "r")), code_check = NULL, 
+    error_check = NULL, check = structure("grade_code(\"Good job!\")", chunk_opts = list(
+        label = "exercise4-2-check")), solution = structure("CityInfo[CityInfo$State!=\"CA\",] ", chunk_opts = list(
+        label = "exercise4-2-solution")), tests = NULL, options = list(
+        eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
+        tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
+        highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
+        strip.white = TRUE, cache = 0, cache.path = "Getting-Started-with-R_cache/html/", 
+        cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
+        autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
+        fig.show = "asis", fig.align = "default", fig.path = "Getting-Started-with-R_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = FALSE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
+        exercise.error.check.code = "gradethis_error_checker()", 
+        label = "exercise4-2", exercise.setup = "create-cityinfo", 
+        exercise = TRUE, out.width.px = 624, out.height.px = 384, 
+        params.src = "exercise4-2,exercise.setup=\"create-cityinfo\", exercise = TRUE", 
+        fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
  
@@ -1121,18 +1131,22 @@ learnr:::store_exercise_cache(structure(list(label = "exercise7-1_code_sandbox",
 "library(gradethis)", "library(psych)", "knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)", 
 "knitr::opts_chunk$set(echo = TRUE)", "learnr::tutorial_options(", 
 "  exercise.timelimit = 60)"), chunk_opts = list(label = "setup", 
-    include = FALSE)), setup = NULL, chunks = list(list(label = "exercise7-1_code_sandbox", 
-    code = "missingparts <- c(1, 2, 3,  NA)", opts = list(label = "\"exercise7-1_code_sandbox\"", 
-        exercise = "TRUE", exercise.cap = "\"missing_value\""), 
-    engine = "r")), code_check = NULL, error_check = NULL, check = NULL, 
-    solution = NULL, tests = NULL, options = list(eval = FALSE, 
-        echo = TRUE, results = "markup", tidy = FALSE, tidy.opts = NULL, 
-        collapse = FALSE, prompt = FALSE, comment = NA, highlight = FALSE, 
-        size = "normalsize", background = "#F7F7F7", strip.white = TRUE, 
-        cache = 0, cache.path = "Getting-Started-with-R_cache/html/", 
-        cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
-        autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "Getting-Started-with-R_files/figure-html/", 
+    include = FALSE)), setup = "missingparts <- c(1, 2, 3,  NA)\nmean(missingparts) # what is the result?\nmean(missingparts, na.rm=T) # we can tell the function to ignore any NA values in the data\nmissingparts[is.na(missingparts)] #you can also subset out only the values that are equal to NA. This is not so useful here, but can be useful when you want to isolate rows in a dataframe that have missing values in particular columns.", 
+    chunks = list(list(label = "missingparts", code = "missingparts <- c(1, 2, 3,  NA)\nmean(missingparts) # what is the result?\nmean(missingparts, na.rm=T) # we can tell the function to ignore any NA values in the data\nmissingparts[is.na(missingparts)] #you can also subset out only the values that are equal to NA. This is not so useful here, but can be useful when you want to isolate rows in a dataframe that have missing values in particular columns.", 
+        opts = list(label = "\"missingparts\""), engine = "r"), 
+        list(label = "exercise7-1_code_sandbox", code = "\n\n", 
+            opts = list(label = "\"exercise7-1_code_sandbox\"", 
+                exercise.setup = "\"missingparts\"", exercise = "TRUE", 
+                exercise.cap = "\"missing_value\""), engine = "r")), 
+    code_check = NULL, error_check = NULL, check = NULL, solution = NULL, 
+    tests = NULL, options = list(eval = FALSE, echo = TRUE, results = "markup", 
+        tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
+        comment = NA, highlight = FALSE, size = "normalsize", 
+        background = "#F7F7F7", strip.white = TRUE, cache = 0, 
+        cache.path = "Getting-Started-with-R_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "Getting-Started-with-R_files/figure-html/", 
         dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
         fig.width = 6.5, fig.height = 4, fig.env = "figure", 
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
@@ -1143,10 +1157,10 @@ learnr:::store_exercise_cache(structure(list(label = "exercise7-1_code_sandbox",
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
-        label = "exercise7-1_code_sandbox", exercise = TRUE, 
-        exercise.cap = "missing_value", code = "missingparts <- c(1, 2, 3,  NA)", 
-        out.width.px = 624, out.height.px = 384, params.src = "exercise7-1_code_sandbox, exercise=TRUE, exercise.cap=\"missing_value\"", 
-        fig.num = 0, exercise.df_print = "paged"), engine = "r", 
+        label = "exercise7-1_code_sandbox", exercise.setup = "missingparts", 
+        exercise = TRUE, exercise.cap = "missing_value", out.width.px = 624, 
+        out.height.px = 384, params.src = "exercise7-1_code_sandbox, exercise.setup=\"missingparts\",exercise=TRUE, exercise.cap=\"missing_value\"", 
+        fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
 </p>
