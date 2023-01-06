@@ -92,7 +92,7 @@ geom_abline()
 ## Bar plots
 
 Bar plots are great for showing frequencies or proportions across different groups. Let's return to the otter dataset we analyzed last week. First, let's calculate the total number of otters observed per site and then plot this in a bargraph with `ggplot2`.
-```{r}
+```{r otter-store}
 otter <- read.csv("https://maddiebrown.github.io/ANTH630/data/sea_otter_counts_2017&2018_CLEANDATA.csv")
 notterpersite <- aggregate(x=n_otter ~ site_name, FUN=sum, data=otter)
 ggplot(notterpersite, aes(x=site_name, y=n_otter)) + geom_col()
@@ -104,14 +104,14 @@ Hmm...there are way too many columns in the plot above to make it a meaningful b
 <details>
 <summary><span style="color:tomato">**Click for solution**</span></summary>
 ```{r}
-notterpersite 
-notterpersite<- notterpersite[order(notterpersite$n_otter,decreasing=T),]
-top5 <- notterpersite[1:5,]
-ggplot(top5, aes(x=site_name, y=n_otter)) + geom_col()
+#notterpersite 
+#notterpersite<- notterpersite[order(notterpersite$n_otter,decreasing=T),]
+#top5 <- notterpersite[1:5,]
+#ggplot(top5, aes(x=site_name, y=n_otter)) + geom_col()
 ```
 </details>
 
-```{r exercise1-1, exercise = TRUE}
+```{r exercise1-1, exercise.setup="otter-store", exercise = TRUE}
 
 ```
 
