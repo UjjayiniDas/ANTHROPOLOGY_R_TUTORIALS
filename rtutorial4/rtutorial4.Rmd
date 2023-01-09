@@ -116,3 +116,59 @@ ggplot(top5, aes(x=site_name, y=n_otter)) + geom_col()
 ```{r exercise1-1-check}
 grade_code()
 ```
+
+
+Alright, this figure is looking better. But suppose we want to reorder the categories on the X-axis such that they are in order from fewest to greatest number of otter sightings?
+
+The site names are currently a factor column. This means there are ordered levels within the variable. We can reorder the levels of the factor according to the value in the n_otter column. First, inspect the structure of the site_name data. How many factor levels are there? Why do you think this is the case? 
+
+Our first step is to drop all the extra levels. You'll notice that the remaining factors are in alphabetical order. 
+
+```{r, include=FALSE}
+# this code is to include the notterpersite and top5 variables in the tutorial's R session 
+# so the next code chunk has access to them. The exercises have their own R session
+# so the other code chunk's won't be able to exercise the variables defined there.
+notterpersite<- notterpersite[order(notterpersite$n_otter,decreasing=T),]
+top5 <- notterpersite[1:5,]
+```
+
+```{r}
+str(top5$site_name)
+top5$site_name<-reorder(top5$site_name,top5$n_otter)
+p1 <- ggplot(top5, aes(x=site_name, y=n_otter)) + geom_col()
+p1
+```
+
+You can also reorder factors with the `levels` argument of the `factor()` function.
+
+## Working with axes and labels
+
+R will usually make default x and y limits, but sometimes we want to manually adjust these ranges. Let's adjust the ylimit of our otter plot to 500. In reality, we wouldn't want to adjust the axes in this case, but this represents the principle.
+
+```{r}
+p1 + ylim(0,500)
+```
+
+We can also flip the x and y coordinates. 
+```{r}
+p1 + coord_flip()
+
+```
+
+### Try it
+
+Using the `breaks` and `labels` arguments in the `scale_y_continuous()` function, change the labels in the otter plot to any text of your choosing. Finish your plot with a `ggtitle()`
+
+```{r prepare-exercise-2, include=FALSE}
+top5$site_name<-reorder(top5$site_name,top5$n_otter)
+p1 <- ggplot(top5, aes(x=site_name, y=n_otter)) + geom_col()
+```
+
+
+```{r exercise2-1, exercise.setup="prepare-exercise-2", exercise = TRUE}
+
+```
+
+```{r exercise2-1-solution}
+p1 + scale_y_continuous(breaks = c(50,100,150,200,250,300), labels=c("a few","some","more","a bunch","a lot","a ton")) + ggtitle("Otter Counts")
+```
