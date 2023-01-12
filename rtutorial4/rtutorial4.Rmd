@@ -102,7 +102,13 @@ ggplot(notterpersite, aes(x=site_name, y=n_otter)) + geom_col()
 Hmm...there are way too many columns in the plot above to make it a meaningful barchart. Subset out the top 5 sites with the most otter sightings and recreate the above chart. 
 
 This particular exercise requires you to type the exact code as the solution. Try thinking about how to do it first, then click on solution to see the exact code that will earn a correct submission. Of course there are other variable names or ways to do it.
-```{r exercise1-1, exercise = TRUE}
+```{r prepare-otter}
+otter <- read.csv("https://maddiebrown.github.io/ANTH630/data/sea_otter_counts_2017&2018_CLEANDATA.csv")
+notterpersite <- aggregate(x=n_otter ~ site_name, FUN=sum, data=otter)
+ggplot(notterpersite, aes(x=site_name, y=n_otter)) + geom_col()
+```
+
+```{r exercise1-1, exercise.setup="prepare-otter", exercise = TRUE}
 # notterpersite <-
 # top5 <-
 ```
@@ -155,20 +161,59 @@ p1 + coord_flip()
 
 ```
 
-### Try it
+### Try it {data-allow-skip=TRUE}
 
 Using the `breaks` and `labels` arguments in the `scale_y_continuous()` function, change the labels in the otter plot to any text of your choosing. Finish your plot with a `ggtitle()`
 
-```{r prepare-exercise-2, include=FALSE}
+```{r prepare-p1, exercise.setup="prepare-otter", include=FALSE}
+# chain exercise setup from previous exercise
+notterpersite<- notterpersite[order(notterpersite$n_otter,decreasing=T),]
+top5 <- notterpersite[1:5,]
+
 top5$site_name<-reorder(top5$site_name,top5$n_otter)
 p1 <- ggplot(top5, aes(x=site_name, y=n_otter)) + geom_col()
 ```
 
-
-```{r exercise2-1, exercise.setup="prepare-exercise-2", exercise = TRUE}
+```{r exercise2-1, exercise.setup="prepare-p1", exercise = TRUE}
 
 ```
 
 ```{r exercise2-1-solution}
 p1 + scale_y_continuous(breaks = c(50,100,150,200,250,300), labels=c("a few","some","more","a bunch","a lot","a ton")) + ggtitle("Otter Counts")
+```
+
+## Working with colors
+
+With ggplot you can customize the colors of different components of the graph in numerous ways. Let's work with the otters graph we just made to see how ggplot understands color arguments.
+
+### Try it {data-allow-skip=TRUE}
+
+1. Using the fill and color arguments in geom_col, add colors to the otter plot.
+
+```{r exercise3-1, exercise.setup="prepare-p1", exercise = TRUE}
+
+```
+
+```{r exercise3-1-solution}
+ggplot(top5, aes(x=site_name, y=n_otter)) + geom_col(fill="firebrick", color="lightsalmon2")
+```
+
+2. What happens if you put the same arguments into the aes() argument of the ggplot() function?
+```{r exercise3-2, exercise.setup="prepare-p1", exercise = TRUE}
+
+```
+
+```{r exercise3-2-solution}
+ggplot(top5, aes(x=site_name, y=n_otter, fill="firebrick", color="lightsalmon2")) + geom_col()
+```
+
+3. What happens if you assign "fill" to the site name variable?
+```{r exercise3-3, exercise.setup="prepare-p1", exercise = TRUE}
+
+```
+
+```{r exercise3-3-solution}
+ggplot(top5, aes(x=site_name, y=n_otter, fill=site_name)) + geom_col()
+
+ggplot(top5, aes(x=site_name, y=n_otter)) + geom_col(aes(fill=site_name))
 ```
