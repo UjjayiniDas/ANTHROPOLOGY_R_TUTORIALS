@@ -199,6 +199,7 @@ ggplot(top5, aes(x=site_name, y=n_otter)) + geom_col(fill="firebrick", color="li
 ```
 
 2. What happens if you put the same arguments into the aes() argument of the ggplot() function?
+
 ```{r exercise3-2, exercise.setup="prepare-p1", exercise = TRUE}
 
 ```
@@ -208,6 +209,7 @@ ggplot(top5, aes(x=site_name, y=n_otter, fill="firebrick", color="lightsalmon2")
 ```
 
 3. What happens if you assign "fill" to the site name variable?
+
 ```{r exercise3-3, exercise.setup="prepare-p1", exercise = TRUE}
 
 ```
@@ -216,4 +218,20 @@ ggplot(top5, aes(x=site_name, y=n_otter, fill="firebrick", color="lightsalmon2")
 ggplot(top5, aes(x=site_name, y=n_otter, fill=site_name)) + geom_col()
 
 ggplot(top5, aes(x=site_name, y=n_otter)) + geom_col(aes(fill=site_name))
+```
+
+There is a major difference between assigning color within the aes() argument or outside of it.
+
+### Try it {data-allow-skip=TRUE}
+**Stacked bar chart**
+
+Suppose we wanted to take the top 5 otter sites and show the different observation counts for each year. Try using the fill argument to create this figure. You will also likely need to retransform the data while including the three columns of interest.
+
+```{r exercise4-1, exercise.setup="prepare-otter", exercise = TRUE}
+
+```
+
+```{r exercise4-1-solution}
+notterperyearsite <- aggregate(x=n_otter ~ site_name + year, FUN=sum, data=otter)
+ggplot(notterperyearsite, aes(site_name,n_otter,fill=year)) + geom_col()
 ```
