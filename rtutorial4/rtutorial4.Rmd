@@ -235,3 +235,177 @@ Suppose we wanted to take the top 5 otter sites and show the different observati
 notterperyearsite <- aggregate(x=n_otter ~ site_name + year, FUN=sum, data=otter)
 ggplot(notterperyearsite, aes(site_name,n_otter,fill=year)) + geom_col()
 ```
+
+### Working with color palettes
+
+What if we want to use color to represent a scale?
+
+```{r}
+# colors mapped to categorical variable
+
+ggplot(diamonds, aes(carat, price, color=cut)) + geom_point()
+
+# ggplot creates an automatic scale
+ggplot(diamonds, aes(x, carat, color=price)) + geom_point()
+
+# you can add a manual scale with two colors on either end
+ggplot(diamonds, aes(x, carat, color=price)) + geom_point() + scale_colour_gradient(low = "lightpink", high = "darkmagenta")
+
+# you can add a manual scale with two colors on either end and a clear midpoint
+ggplot(diamonds, aes(x, carat, color=price)) + geom_point() + scale_colour_gradient2(low = "deeppink4", mid="white", high = "lightblue", midpoint=median(diamonds$price))
+
+```
+
+There are also a variety of built-in palettes in R that are useful. 
+
+
+```{r}
+
+# viridis is great for making color-blind friendly plots
+ggplot(diamonds, aes(carat, price, color=price)) + geom_point() + scale_colour_viridis_c()
+
+#color brewer has convenient built-in palettes and is usful for base R plotting
+ggplot(diamonds, aes(carat, price, color=clarity)) + geom_point() + scale_colour_brewer(palette="Oranges")
+
+ggplot(diamonds, aes(carat, price, color=clarity)) + geom_point() + scale_colour_brewer(palette="Set3")
+
+# we can also make a custom rainbow palette, as we did with base r last week.
+rpal<-rainbow(8)
+ggplot(diamonds, aes(carat, price, color=rpal[diamonds$clarity])) + geom_point() 
+
+
+```
+
+## Adding text
+We can add text to a plot using the `annotate()` function. 
+
+```{r}
+ggplot(diamonds, aes(carat, price, color=rpal[diamonds$clarity])) + geom_point() + annotate("text", x=4,y=5000,label="Diamond prices")
+
+```
+
+### Try it {data-allow-skip=TRUE}
+
+Using the same diamonds plot as before. Make a new text annotation in the upper left corner that is large, bold, serif font, and a color other than black.
+
+```{r exercise5-1, exercise = TRUE}
+
+```
+
+```{r exercise5-1-solution}
+ggplot(diamonds, aes(carat, price, color=rpal[diamonds$clarity])) + geom_point() + annotate("text", x=1,y=15000,label="Diamond prices", family="serif",fontface="bold", size=6,color="purple")
+```
+
+### Adding text based on values in plot
+
+We can also add text labels to points, bars, or other values in a plot. 
+
+```{r}
+ggplot(top5, aes(x=site_name, y=n_otter)) + geom_col(aes(fill=site_name)) + geom_text(aes(label=n_otter), vjust=1.5,color="bisque")
+```
+
+## Facet plots
+
+Sometimes it is helpful to create multiple plots on the same axis, but grouped by another variable. This is called faceting.
+
+```{r}
+library(MASS)
+
+ggplot(Cars93, aes(Horsepower, Price)) + geom_point() + facet_wrap(Cars93$Type)
+
+```
+
+## Customizing the legend
+
+R will automatically produce a legend in ggplot2. Often we need to customize this legend further. 
+```{r}
+ggplot(Cars93, aes(Horsepower, Price, color=Type)) + geom_point()
+
+```
+You can change the order of items in the legend. 
+```{r}
+ggplot(Cars93, aes(Horsepower, Price, color=Type)) + geom_point() + scale_color_discrete(breaks=c("Van", "Compact","Large","Midsize","Small","Sporty"))
+
+```
+
+You can also hide titles or the legend as a whole. More information in the [Cookbook for R](http://www.cookbook-r.com/Graphs/Legends_(ggplot2)
+
+```{r}
+ggplot(Cars93, aes(Horsepower, Price, color=Type)) + geom_point() + guides(color=guide_legend(title=NULL))
+ggplot(Cars93, aes(Horsepower, Price, color=Type)) + geom_point() + guides(color=FALSE)
+
+```
+
+## Putting multiple plots together
+
+When plotting in base R, we can change the parameters of the graphics output to include multiple plots. This is accomplished with `par(mfrow=c(#r,#c))`. It is usually best practice to reset the parameters after changing them, as otherwise all subsequent plots will also follow those parameters. 
+
+```{r}
+par(mfrow=c(1,2))
+boxplot(cars$speed, main="Car speeds")
+boxplot(cars$speed, main="Car speeds")
+abline(h=mean(cars$speed),col="red",lty=2)
+abline(h=median(cars$speed),col="blue",lty=2)
+par(mfrow=c(1,1))
+```
+
+### Putting multiple plots together with ggplot
+
+`ggplot` doesn't work with resetting the parameters. We can use functions from `gridExtra` to put multiple different plots in the same output page. Here is the example from today's lecture slides, where two barcharts are plotted next to one another (don't copy the poor y-axis limits seen here!). 
+```{r}
+library(gridExtra)
+#example adapted from field 2012, common idea in data visualization
+samp <- data.frame(month=c("May","June"), beachvisitors=c(100,175) )
+p1 <- ggplot(data=samp, aes(x=month, y=beachvisitors)) + geom_col() + ggtitle("Beach visitors per month")
+p2<- ggplot(data=samp, aes(x=month, y=beachvisitors)) + geom_col() + ylim(0,700) + ggtitle("Beach visitors per month")
+grid.arrange(p1,p2,nrow=1)
+```
+
+## Saving graphical output
+
+After making a beautiful graph, you can save it in a couple of different ways. First, in RStudio you can save the plot directly from the plots tab. Otherwise, you can also use several functions for saving graphical output. 
+
+```{r}
+samp <- data.frame(month=c("May","June"), beachvisitors=c(100,175) )
+p1 <- ggplot(data=samp, aes(x=month, y=beachvisitors)) + geom_col() + ggtitle("Beach visitors per month")
+
+#save as a pdf
+#pdf("beach.pdf")
+#ggplot(data=samp, aes(x=month, y=beachvisitors)) + geom_col() + ggtitle("Beach visitors per month")
+#dev.off()
+
+#saves the last ggplot to a file in the working directory
+#ggsave("beach2.pdf")
+
+```
+
+## Themes
+
+```{r}
+
+ggplot(diamonds, aes(carat, price)) +geom_point() + theme_bw()
+
+ggplot(diamonds, aes(carat, price)) +geom_point() + theme_classic()
+
+ggplot(diamonds, aes(carat, price)) +geom_point() + theme_minimal()
+
+
+```
+
+Even more themes with [`ggthemes`](https://github.com/jrnold/ggthemes). Here is a helpful [gallery](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/).
+
+```{r}
+library(ggthemes)
+
+ggplot(diamonds, aes(carat, price)) +geom_point() + theme_wsj()
+
+ggplot(diamonds, aes(carat, price)) +geom_point() + theme_fivethirtyeight()
+
+ggplot(diamonds, aes(carat, price)) +geom_point() + theme_gdocs()
+```
+
+### Further practice
+
+An interesting exploratory data analysis and graphing tutorial using median household incomes in Maryland. Linked [here](https://rpubs.com/frankhecker/499524)
+
+A pretty bubble plot tutorial can be found [here](https://www.r-graph-gallery.com/320-the-basis-of-bubble-plot.html). 
