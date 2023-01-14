@@ -126,9 +126,7 @@ grade_code()
 
 Alright, this figure is looking better. But suppose we want to reorder the categories on the X-axis such that they are in order from fewest to greatest number of otter sightings?
 
-The site names are currently a factor column. This means there are ordered levels within the variable. We can reorder the levels of the factor according to the value in the n_otter column. First, inspect the structure of the site_name data. How many factor levels are there? Why do you think this is the case? 
-
-Our first step is to drop all the extra levels. You'll notice that the remaining factors are in alphabetical order. 
+We can reorder the levels of the factor according to the value in the n_otter column. First, inspect the structure of the site_name data. You'll notice that the remaining factors are in alphabetical order. 
 
 ```{r, include=FALSE}
 # this code is to include the notterpersite and top5 variables in the tutorial's R session 
