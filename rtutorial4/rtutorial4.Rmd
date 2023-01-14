@@ -285,12 +285,16 @@ ggplot(diamonds, aes(carat, price, color=rpal[clarity])) + geom_point() + annota
 
 Using the same diamonds plot as before. Make a new text annotation in the upper left corner that is large, bold, serif font, and a color other than black.
 
-```{r exercise5-1, exercise = TRUE}
+```{r prepare_rpal, include=FALSE}
+rpal<-rainbow(8)
+```
+
+```{r exercise5-1, exercise.setup="prepare_rpal", exercise = TRUE}
 
 ```
 
 ```{r exercise5-1-solution}
-ggplot(diamonds, aes(carat, price, color=rpal[diamonds$clarity])) + geom_point() + annotate("text", x=1,y=15000,label="Diamond prices", family="serif",fontface="bold", size=6,color="purple")
+ggplot(diamonds, aes(carat, price, color=rpal[clarity])) + geom_point() + annotate("text", x=1,y=15000,label="Diamond prices", family="serif",fontface="bold", size=6,color="purple")
 ```
 
 ### Adding text based on values in plot
