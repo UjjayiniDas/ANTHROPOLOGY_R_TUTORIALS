@@ -101,7 +101,7 @@ ggplot(notterpersite, aes(x=site_name, y=n_otter)) + geom_col()
 ### Try it
 Hmm...there are way too many columns in the plot above to make it a meaningful barchart. Subset out the top 5 sites with the most otter sightings and recreate the above chart. 
 
-This particular exercise requires you to type the exact code as the solution. Try thinking about how to do it first, then click on solution to see the exact code that will earn a correct submission. Of course there are other variable names or ways to do it.
+*To get past this exercise, you'll need to submit the code exactly as it is in the solution with the same variable names.*
 ```{r prepare-otter}
 otter <- read.csv("https://maddiebrown.github.io/ANTH630/data/sea_otter_counts_2017&2018_CLEANDATA.csv")
 notterpersite <- aggregate(x=n_otter ~ site_name, FUN=sum, data=otter)
