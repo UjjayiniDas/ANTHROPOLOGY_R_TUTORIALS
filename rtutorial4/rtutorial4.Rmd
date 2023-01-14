@@ -271,7 +271,7 @@ ggplot(diamonds, aes(carat, price, color=clarity)) + geom_point() + scale_colour
 
 # we can also make a custom rainbow palette, as we did with base r last week.
 rpal<-rainbow(8)
-ggplot(diamonds, aes(carat, price, color=rpal[diamonds$clarity])) + geom_point() 
+ggplot(diamonds, aes(carat, price, color=rpal[clarity])) + geom_point() 
 
 
 ```
@@ -280,7 +280,7 @@ ggplot(diamonds, aes(carat, price, color=rpal[diamonds$clarity])) + geom_point()
 We can add text to a plot using the `annotate()` function. 
 
 ```{r}
-ggplot(diamonds, aes(carat, price, color=rpal[diamonds$clarity])) + geom_point() + annotate("text", x=4,y=5000,label="Diamond prices")
+ggplot(diamonds, aes(carat, price, color=rpal[clarity])) + geom_point() + annotate("text", x=4,y=5000,label="Diamond prices")
 
 ```
 
@@ -408,4 +408,6 @@ ggplot(diamonds, aes(carat, price)) +geom_point() + theme_gdocs()
 
 An interesting exploratory data analysis and graphing tutorial using median household incomes in Maryland. Linked [here](https://rpubs.com/frankhecker/499524)
 
-A pretty bubble plot tutorial can be found [here](https://www.r-graph-gallery.com/320-the-basis-of-bubble-plot.html). 
+A pretty bubble plot tutorial can be found [here](https://www.r-graph-gallery.com/320-the-basis-of-bubble-plot.html).
+
+
