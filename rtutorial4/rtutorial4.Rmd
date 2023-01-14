@@ -143,7 +143,6 @@ p1 <- ggplot(top5, aes(x=site_name, y=n_otter)) + geom_col()
 p1
 ```
 
-You can also reorder factors with the `levels` argument of the `factor()` function.
 
 ## Working with axes and labels
 
