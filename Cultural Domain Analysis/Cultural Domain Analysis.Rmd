@@ -35,7 +35,7 @@ This lesson will teach you how to work with and analyze cultural domain data usi
 
 ## Load packages and data
 
-```{r results=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 library(ggplot2) 
 library(tidyr)
@@ -72,7 +72,7 @@ From these few operations we now know a bit more about the dataset. There are 20
 
 Next, let's calculate the average number of fruits named per person and explore the distribution of list lengths across responses.
 
-```{r}
+```{r echo= -1}
 FruitList <- read.csv("D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/FruitList.csv")
 # How many responses per subject
 FruitList %>% group_by(Subj) %>% count()
@@ -94,7 +94,7 @@ table(BySubject$n)
 
 Next, let's analyze how frequently each fruit was mentioned. For this analysis we are going to create a new dataframe object called 'ByFruit' that groups the data according to each unique fruit and counts the number of rows.
 
-```{r results='hide'}
+```{r prepare-byfruit, eval=TRUE, echo=TRUE}
 ByFruit <- FruitList %>% group_by(CODE) %>% count() %>% arrange(desc(n))
 ByFruit
 ```
@@ -103,7 +103,7 @@ ByFruit
 
 Plot the number of times each type of fruit is mentioned by interviewees. Make a bar plot with flipped coordinates so that each fruit name is on the y axis and the number of mentions are on the x axis. 
 
-```{r exercise2, exercise.setup="prepare-fruitlist", exercise=TRUE}
+```{r exercise2, exercise.setup="prepare-byfruit", exercise=TRUE}
 
 ```
 
@@ -119,7 +119,8 @@ grade_code("Excellent!")
 
 Another way to visualize these data is through a scree plot. In these types of plots data are arranged such that each point represents a single item, the y-value for which is its frequency of mention in the dataset. These types of plots can be used to quickly identify trends and cut-off points in the data.
 
-```{r}
+```{r echo=-1}
+ByFruit <- FruitList %>% group_by(CODE) %>% count() %>% arrange(desc(n))
 ggplot(ByFruit, aes(x=reorder(CODE,desc(n)),y=n,group=1)) + geom_point() + geom_line()
 ```
 
@@ -143,7 +144,7 @@ One of the main insights than can be learned from freelist data is the relative 
 
 Luckily, the package `AnthroTools` has a built in salience calculation function that can do the math for us. The code below calculates the salience of each fruit listed in the context of each individual interviewee.
 
-```{r new-fruitlist}
+```{r prepare-salience}
 FruitListSalience <- CalculateSalience(FruitList,Order="Order",Subj="Subj",CODE="CODE")
 # Note: I have included the arguments for Order, Subj and CODE for illustrative purposes. Because these column names match the arguments, you do not actually need to include them in this case. However, when you are working with your own datasets you may have different column names, so it is helpful to keep the underlying structure of functions in mind when you deploy them.
 FruitListSalience
@@ -154,24 +155,24 @@ The above code calculates the salience for each item by respondent. If you inspe
 
 Try running the `SalienceByCode()` function on the new salience dataframe we made above.
 
-```{r exercise3, exercise.setup="new-fruitlist", exercise=TRUE}
+```{r exercise3, exercise.setup="prepare-salience", exercise=TRUE}
 ```
 
 ```{r exercise3-solution}
 SalienceByFruit <- SalienceByCode(FruitListSalience,dealWithDoubles="MAX") 
-# The dealwithdoubles argument tells R what to do if a respondent lists the same item twice. There are a few different options available for this, the right one to pick will depend on your data and research question.
-  
 ```
 
 ```{r exercise3-check}
 grade_code("Excellent!")
 ```
 
+*The `dealwithdoubles` argument tells R what to do if a respondent lists the same item twice. There are a few different options available for this, the right one to pick will depend on your data and research question.*
+  
 From this analysis we can see that there are slight differences in the mean salience and Smith's S. Smith's S considers the length of lists in its calculation of salience (More info [here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3551534/). 
 
 Now let's plot the Smith's S results in decreasing order and add a vertical line at the 0.1 mark. This range is generally considered a benchmark level for assessing item salience in freelists.
 
-```{r}
+```{r echo=-1}
 SalienceByFruit <- SalienceByCode(FruitListSalience,dealWithDoubles="MAX") 
 ggplot(SalienceByFruit, aes(x=reorder(CODE,SmithsS),y=SmithsS)) + geom_bar(stat="identity") +coord_flip() +ggtitle("Fruit Salience") + labs(x="Fruit", y="Smith's S") + geom_hline(yintercept=0.1)
 ```
@@ -196,13 +197,14 @@ Try calculating the salience for each fruit, adding in an argument to differenti
 
 ```{r exercise4-solution}
 FL1 <- CalculateSalience(WorldList, Order="Order",Subj="Subj",CODE="CODE",GROUPING="GROUPING")
-#Note, this function will not run without adding in the GROUPING argument.
 FL2<- SalienceByCode(FL1,GROUPING="GROUPING",dealWithDoubles = "MAX")
 ```
 
 ```{r exercise4-check}
 grade_code("Excellent!")
 ```
+
+*#Note, this function will not run without adding in the GROUPING argument.*
 
 ## Frequency by group 
 
@@ -363,7 +365,7 @@ PersonbyTree %>% pivot_longer(-Tree,names_to="Species",values_to="Pile") #Anothe
 
 Now that our data are in a long format we can add in a new unique identifier for each person_pile combination. This step is required because the piles have numeric names that repeat across respondents. Next we can make a presence/absence column that will be useful for creating a new matrix based on whether or not a tree occurs in a particular pile. 
 
-```{r}
+```{r echo=3:4}
 # Add new column which is person ID and pile ID combined together
 PersonbyTree$Person <- rownames(PersonbyTree)
 PersonbyTreeLong <- PersonbyTree %>% gather(Species,Pile,maple:coconut)
@@ -419,7 +421,7 @@ ggplot(test3,aes(x = X1,y = X2, label = Trees))+geom_text(cex=3,alpha=0.5,positi
 
 This plot shows an MDS of the trees by which pile they are in. It shows us there are 4-5 different types of piles usually made by respondents. This can help in interpretation, but often we are most interested in the relationship between each tree species and the other tree species. For this, we work with a `TreebyTree` matrix.
 
-```{r}
+```{r results='hide'}
 # Make a treebytree dataframe
 TreebyTree <- crossprod(TreeWide)
 head(TreebyTree) 

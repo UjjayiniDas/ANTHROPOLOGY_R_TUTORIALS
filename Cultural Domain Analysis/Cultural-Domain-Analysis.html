@@ -137,24 +137,27 @@ href="https://maddiebrown.github.io/ethnoecology/pilesort_sampledata.csv">here</
 </div>
 <div id="section-load-packages-and-data" class="section level2">
 <h2>Load packages and data</h2>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
-## ✔ readr   2.1.3      ✔ forcats 0.5.2 
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ ggplot2::%+%()   masks psych::%+%()
-## ✖ ggplot2::alpha() masks psych::alpha()
-## ✖ dplyr::filter()  masks stats::filter()
-## ✖ dplyr::lag()     masks stats::lag()</code></pre>
-<pre class="r"><code>library(ggplot2) 
+<pre class="r"><code>library(tidyverse)
+library(ggplot2) 
 library(tidyr)</code></pre>
 <p>Second, let’s load the data we plan to use and assign it a name. Here
 we will load the <code>FruitList</code> data. Take a look at the
 <code>head()</code> and <code>str()</code> of this spreadsheet. How do
 you think the data have been organized? What do the rows and columns
 represent?</p>
+<pre class="r"><code>FruitList &lt;- read.csv(&quot;D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/FruitList.csv&quot;)
+head(FruitList)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["X"],"name":[1],"type":["int"],"align":["right"]},{"label":["Subj"],"name":[2],"type":["int"],"align":["right"]},{"label":["Order"],"name":[3],"type":["int"],"align":["right"]},{"label":["CODE"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"1","2":"1","3":"1","4":"pear","_rn_":"1"},{"1":"2","2":"1","3":"2","4":"orange","_rn_":"2"},{"1":"3","2":"1","3":"3","4":"apple","_rn_":"3"},{"1":"4","2":"2","3":"1","4":"apple","_rn_":"4"},{"1":"5","2":"2","3":"2","4":"apple","_rn_":"5"},{"1":"6","2":"2","3":"3","4":"strawberry","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>str(FruitList)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    75 obs. of  4 variables:
+##  $ X    : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ Subj : int  1 1 1 2 2 2 3 3 4 4 ...
+##  $ Order: int  1 2 3 1 2 3 1 2 1 2 ...
+##  $ CODE : chr  &quot;pear&quot; &quot;orange&quot; &quot;apple&quot; &quot;apple&quot; ...</code></pre>
 <p>We can see that we have 75 rows with 4 variables. The <code>X</code>
 variable is a numeric index autocreated by excel. The
 <code>Subj'</code>variable is a numeric identifier for each interview
@@ -183,8 +186,7 @@ There are 20 individuals who collectively named a total of 8 unique
 fruits.</p>
 <p>Next, let’s calculate the average number of fruits named per person
 and explore the distribution of list lengths across responses.</p>
-<pre class="r"><code>FruitList &lt;- read.csv(&quot;D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/FruitList.csv&quot;)
-# How many responses per subject
+<pre class="r"><code># How many responses per subject
 FruitList %&gt;% group_by(Subj) %&gt;% count()</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -213,8 +215,6 @@ table(BySubject$n)</code></pre>
 analysis we are going to create a new dataframe object called ‘ByFruit’
 that groups the data according to each unique fruit and counts the
 number of rows.</p>
-<pre class="r"><code>ByFruit &lt;- FruitList %&gt;% group_by(CODE) %&gt;% count() %&gt;% arrange(desc(n))
-ByFruit</code></pre>
 <div id="section-try-it-1" class="section level3">
 <h3>Try it</h3>
 <p>Plot the number of times each type of fruit is mentioned by
@@ -240,7 +240,7 @@ single item, the y-value for which is its frequency of mention in the
 dataset. These types of plots can be used to quickly identify trends and
 cut-off points in the data.</p>
 <pre class="r"><code>ggplot(ByFruit, aes(x=reorder(CODE,desc(n)),y=n,group=1)) + geom_point() + geom_line()</code></pre>
-<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-5-1.png" width="624" /></p>
+<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-4-1.png" width="624" /></p>
 </div>
 <div id="section-frequency-vs.-rank" class="section level3">
 <h3>Frequency vs. rank</h3>
@@ -257,7 +257,7 @@ ByFruit # Look at our new object</code></pre>
 </div>
 <pre class="r"><code>#Plot these varables
 plot(ByFruit$Frequency,ByFruit$avgRank)</code></pre>
-<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-6-1.png" width="624" /></p>
+<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-5-1.png" width="624" /></p>
 <p>With more observations there will often be a trend where the top
 ranking items show up most frequently. This is a toy dataset with only a
 few samples, so this may explain why the trend doesn’t seem supported,
@@ -308,9 +308,12 @@ data-lines="0">
 <div class="tutorial-exercise-support" data-label="exercise3-solution"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0">
-<pre class="text"><code>SalienceByFruit &lt;- SalienceByCode(FruitListSalience,dealWithDoubles=&quot;MAX&quot;) 
-# The dealwithdoubles argument tells R what to do if a respondent lists the same item twice. There are a few different options available for this, the right one to pick will depend on your data and research question.</code></pre>
+<pre class="text"><code>SalienceByFruit &lt;- SalienceByCode(FruitListSalience,dealWithDoubles=&quot;MAX&quot;) </code></pre>
 </div>
+<p><em>The <code>dealwithdoubles</code> argument tells R what to do if a
+respondent lists the same item twice. There are a few different options
+available for this, the right one to pick will depend on your data and
+research question.</em></p>
 <p>From this analysis we can see that there are slight differences in
 the mean salience and Smith’s S. Smith’s S considers the length of lists
 in its calculation of salience (More info <a
@@ -318,7 +321,6 @@ href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3551534/">here</a>.</p>
 <p>Now let’s plot the Smith’s S results in decreasing order and add a
 vertical line at the 0.1 mark. This range is generally considered a
 benchmark level for assessing item salience in freelists.</p>
-<pre class="r"><code>SalienceByFruit &lt;- SalienceByCode(FruitListSalience,dealWithDoubles=&quot;MAX&quot;) </code></pre>
 <pre><code>##         CODE MeanSalience SumSalience   SmithsS
 ## 1       pear    0.6958333    5.566667 0.2783333
 ## 2     orange    0.6444444    3.866667 0.1933333
@@ -329,7 +331,7 @@ benchmark level for assessing item salience in freelists.</p>
 ## 7      lemon    0.5083333    2.033333 0.1016667
 ## 8      peach    0.8750000    1.750000 0.0875000</code></pre>
 <pre class="r"><code>ggplot(SalienceByFruit, aes(x=reorder(CODE,SmithsS),y=SmithsS)) + geom_bar(stat=&quot;identity&quot;) +coord_flip() +ggtitle(&quot;Fruit Salience&quot;) + labs(x=&quot;Fruit&quot;, y=&quot;Smith&#39;s S&quot;) + geom_hline(yintercept=0.1)</code></pre>
-<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-7-1.png" width="624" /></p>
+<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-6-1.png" width="624" /></p>
 <p>From this plot, it looks like most of the fruits could be considered
 salient in this dataset. However, although pears were mentioned slightly
 more frequently than bananas and plums, their salience is lower when
@@ -367,9 +369,10 @@ data-lines="0">
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0">
 <pre class="text"><code>FL1 &lt;- CalculateSalience(WorldList, Order=&quot;Order&quot;,Subj=&quot;Subj&quot;,CODE=&quot;CODE&quot;,GROUPING=&quot;GROUPING&quot;)
-#Note, this function will not run without adding in the GROUPING argument.
 FL2&lt;- SalienceByCode(FL1,GROUPING=&quot;GROUPING&quot;,dealWithDoubles = &quot;MAX&quot;)</code></pre>
 </div>
+<p><em>#Note, this function will not run without adding in the GROUPING
+argument.</em></p>
 </div>
 </div>
 <div id="section-frequency-by-group" class="section level2">
@@ -384,7 +387,7 @@ to the GROUPING variable.</p>
 <p>We can then plot the results of this grouping with a facet wrap
 graph.</p>
 <pre class="r"><code>ggplot(frequencybygroup, aes(x=reorder(CODE,desc(percentRespondents)),percentRespondents)) + geom_bar(stat=&quot;identity&quot;) + coord_flip() +ggtitle(&quot;Frequency of fruit mentions by site&quot;) + labs(x=&quot;Fruit&quot;, y=&quot;n&quot;) + facet_wrap(vars(GROUPING))</code></pre>
-<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-9-1.png" width="624" />
+<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-8-1.png" width="624" />
 It looks like in all cases, apples were mentioned more frequently, but
 the different sample populations differ in their rates of mentioning
 oranges and bananas. One thing you will notice in this graph is that
@@ -502,7 +505,7 @@ test3</code></pre>
 </div>
 <pre class="r"><code>## Plot results
 ggplot(test3,aes(x = X1,y = X2, label = Fruits)) +geom_text() + geom_point(aes(size=count),alpha=0.4,color=&quot;blue&quot;)+labs(size=&quot;Count&quot;,x=&quot;Dimension 1&quot;, y=&quot;Dimension 2&quot;) + ggtitle(&quot;MDS of FruitList&quot;)</code></pre>
-<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-12-1.png" width="624" /></p>
+<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-11-1.png" width="624" /></p>
 <p>This MDS shows the fruits by reponses, showing us how the fruits are
 mentioned by different types of respondents. We might also be interested
 in an MDS of the fruits by fruits co-occurence, which can be calculated
@@ -516,7 +519,7 @@ test5 &lt;- data.frame(test4$points) %&gt;% #mds coordinates
 ## Plot results
 ggplot(test5,aes(x = X1,y = X2, label = Fruits)) +geom_text(fontface=&quot;bold&quot;,size=2.5,alpha=0.6,position=position_jitter(width=0.05, height=0.005)) + geom_point(size=NA)+labs(x=&quot;Dimension 1&quot;, y=&quot;Dimension 2&quot;) + ggtitle(&quot;MDS of FruitbyFruit&quot;)</code></pre>
 <pre><code>## Warning: Removed 8 rows containing missing values (`geom_point()`).</code></pre>
-<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-13-1.png" width="624" /></p>
+<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-12-1.png" width="624" /></p>
 <p>This plot shows us which fruits are more central to the domain
 “fruits” across all the respondents and which are more peripheral. The
 fruits in the center of the plot co-occur more frequently since they are
@@ -591,11 +594,8 @@ because the piles have numeric names that repeat across respondents.
 Next we can make a presence/absence column that will be useful for
 creating a new matrix based on whether or not a tree occurs in a
 particular pile.</p>
-<pre class="r"><code># Add new column which is person ID and pile ID combined together
-PersonbyTree$Person &lt;- rownames(PersonbyTree)
-PersonbyTreeLong &lt;- PersonbyTree %&gt;% gather(Species,Pile,maple:coconut)
-PersonbyTreeLong&lt;- PersonbyTreeLong %&gt;%  mutate(PersonPile=paste(Person,Pile,sep=&quot;_&quot;))
-PersonbyTreeLong$present &lt;- rep(1)</code></pre>
+<pre class="r"><code>PersonbyTreeLong &lt;- PersonbyTree %&gt;% gather(Species,Pile,maple:coconut)
+PersonbyTreeLong&lt;- PersonbyTreeLong %&gt;%  mutate(PersonPile=paste(Person,Pile,sep=&quot;_&quot;))</code></pre>
 <p>Now we can convert the data back into a wide format, where each
 column is a different tree species and the values represent presence or
 absence of the tree.</p>
@@ -843,7 +843,7 @@ test3</code></pre>
 <pre class="r"><code>##plot results
 ggplot(test3,aes(x = X1,y = X2, label = Trees))+geom_text(cex=3,alpha=0.5,position=position_jitter(width=0.05, height=0.05)) + geom_point(size=NA)+labs(x=&quot;Dimension 1&quot;, y=&quot;Dimension 2&quot;) + ggtitle(&quot;MDS of Trees by Pile&quot;)</code></pre>
 <pre><code>## Warning: Removed 38 rows containing missing values (`geom_point()`).</code></pre>
-<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-18-1.png" width="624" /></p>
+<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-17-1.png" width="624" /></p>
 <p>This plot shows an MDS of the trees by which pile they are in. It
 shows us there are 4-5 different types of piles usually made by
 respondents. This can help in interpretation, but often we are most
@@ -852,58 +852,18 @@ tree species. For this, we work with a <code>TreebyTree</code>
 matrix.</p>
 <pre class="r"><code># Make a treebytree dataframe
 TreebyTree &lt;- crossprod(TreeWide)
-head(TreebyTree) </code></pre>
-<pre><code>##        alder apple aspen banana beech birch black walnut cedar chestnut coconut
-## alder      9     1     7      0     7     6            1     2        1       0
-## apple      1     9     1      4     1     2            2     0        2       4
-## aspen      7     1     9      0     8     7            1     2        1       0
-## banana     0     4     0      9     0     1            1     0        1       8
-## beech      7     1     8      0     9     7            1     2        1       0
-## birch      6     2     7      1     7     9            2     1        2       1
-##        dawn redwood douglas fir gingko horse chestnut japanese maple laurel oak
-## alder             2           2      3              4              4          3
-## apple             0           0      2              1              1          2
-## aspen             2           2      3              3              4          3
-## banana            0           0      1              0              0          1
-## beech             2           2      3              3              4          3
-## birch             1           1      4              2              3          4
-##        live oak lodgepole pine longleaf pine mango maple oak orange palm pear
-## alder         3              2             2     1     3   3      1    1    1
-## apple         2              0             0     5     2   2      8    2    9
-## aspen         3              2             2     1     3   3      1    1    1
-## banana        1              0             0     7     1   1      4    6    4
-## beech         3              2             2     1     3   3      1    1    1
-## birch         4              1             1     2     4   4      2    2    2
-##        pecan pine ponderosa pine red oak redwood sequioa silver maple spruce
-## alder      1    2              2       3       2       2            4      2
-## apple      2    0              0       2       0       0            1      0
-## aspen      1    2              2       3       2       2            4      2
-## banana     1    0              0       1       0       0            0      0
-## beech      1    2              2       3       2       2            4      2
-## birch      2    1              1       4       1       1            3      1
-##        sugar maple sycamore walnut white oak white pine
-## alder            3        7      1         3          2
-## apple            2        1      2         2          0
-## aspen            3        6      1         3          2
-## banana           1        0      1         1          0
-## beech            3        6      1         3          2
-## birch            4        5      2         4          1</code></pre>
-<pre class="r"><code>## Using binary mds method
+head(TreebyTree) 
+## Using binary mds method
 TreebyTree %&gt;% dist(method=&quot;binary&quot;) %&gt;% cmdscale(eig=T, k=2) -&gt; test4
 test5 &lt;- data.frame(test4$points) %&gt;% #mds coordinates
   bind_cols(Trees = rownames(TreebyTree))#bind sample names
 # Look at results
 test5</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["X1"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["X2"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Trees"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"0.047610106","2":"0.004982191","3":"alder","_rn_":"alder"},{"1":"-0.284826096","2":"-0.061129577","3":"apple","_rn_":"apple"},{"1":"0.047610106","2":"0.004982191","3":"aspen","_rn_":"aspen"},{"1":"-0.464552524","2":"0.125068499","3":"banana","_rn_":"banana"},{"1":"0.047610106","2":"0.004982191","3":"beech","_rn_":"beech"},{"1":"-0.003074664","2":"0.006320106","3":"birch","_rn_":"birch"},{"1":"-0.120204887","2":"-0.059549125","3":"black walnut","_rn_":"black walnut"},{"1":"0.155184868","2":"0.007223703","3":"cedar","_rn_":"cedar"},{"1":"-0.120204887","2":"-0.059549125","3":"chestnut","_rn_":"chestnut"},{"1":"-0.464552524","2":"0.125068499","3":"coconut","_rn_":"coconut"},{"1":"0.155184868","2":"0.007223703","3":"dawn redwood","_rn_":"dawn redwood"},{"1":"0.155184868","2":"0.007223703","3":"douglas fir","_rn_":"douglas fir"},{"1":"-0.003074664","2":"0.006320106","3":"gingko","_rn_":"gingko"},{"1":"0.058586262","2":"-0.006022298","3":"horse chestnut","_rn_":"horse chestnut"},{"1":"0.047610106","2":"0.004982191","3":"japanese maple","_rn_":"japanese maple"},{"1":"-0.003074664","2":"0.006320106","3":"laurel oak","_rn_":"laurel oak"},{"1":"-0.003074664","2":"0.006320106","3":"live oak","_rn_":"live oak"},{"1":"0.262382078","2":"0.008379270","3":"lodgepole pine","_rn_":"lodgepole pine"},{"1":"0.262382078","2":"0.008379270","3":"longleaf pine","_rn_":"longleaf pine"},{"1":"-0.284826096","2":"-0.061129577","3":"mango","_rn_":"mango"},{"1":"-0.003074664","2":"0.006320106","3":"maple","_rn_":"maple"},{"1":"-0.003074664","2":"0.006320106","3":"oak","_rn_":"oak"},{"1":"-0.284826096","2":"-0.061129577","3":"orange","_rn_":"orange"},{"1":"-0.010365542","2":"0.066587447","3":"palm","_rn_":"palm"},{"1":"-0.284826096","2":"-0.061129577","3":"pear","_rn_":"pear"},{"1":"-0.120204887","2":"-0.059549125","3":"pecan","_rn_":"pecan"},{"1":"0.262382078","2":"0.008379270","3":"pine","_rn_":"pine"},{"1":"0.262382078","2":"0.008379270","3":"ponderosa pine","_rn_":"ponderosa pine"},{"1":"-0.003074664","2":"0.006320106","3":"red oak","_rn_":"red oak"},{"1":"0.155184868","2":"0.007223703","3":"redwood","_rn_":"redwood"},{"1":"0.155184868","2":"0.007223703","3":"sequioa","_rn_":"sequioa"},{"1":"0.047610106","2":"0.004982191","3":"silver maple","_rn_":"silver maple"},{"1":"0.155184868","2":"0.007223703","3":"spruce","_rn_":"spruce"},{"1":"-0.003074664","2":"0.006320106","3":"sugar maple","_rn_":"sugar maple"},{"1":"0.047610106","2":"0.004982191","3":"sycamore","_rn_":"sycamore"},{"1":"-0.120204887","2":"-0.059549125","3":"walnut","_rn_":"walnut"},{"1":"-0.003074664","2":"0.006320106","3":"white oak","_rn_":"white oak"},{"1":"0.262382078","2":"0.008379270","3":"white pine","_rn_":"white pine"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
 <p>Then we can plot the results.</p>
 <pre class="r"><code>## Plot results
 ggplot(test5,aes(x = X1,y = X2, label = Trees)) +geom_text(fontface=&quot;bold&quot;,size=2,alpha=0.4,position=position_jitter(width=0.05, height=0.02)) + geom_point(size=NA)+labs(x=&quot;Dimension 1&quot;, y=&quot;Dimension 2&quot;) + ggtitle(&quot;MDS of Trees&quot;)</code></pre>
 <pre><code>## Warning: Removed 38 rows containing missing values (`geom_point()`).</code></pre>
-<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-20-1.png" width="624" /></p>
+<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-19-1.png" width="624" /></p>
 <p>This plot can be a bit difficult to read at times depending on how
 the labels are plotted. You can rerun the code until a more legible
 version of the graph is generated. You can also adjust the label
@@ -931,7 +891,7 @@ TreeDistMat &lt;- dist(TreebyTreeMat)
 TreeHC &lt;- hclust(TreeDistMat, method=&quot;ward.D&quot;)
 
 plot(TreeHC,xlab=&quot;Tree species&quot;, sub=&quot;Ward&#39;s method&quot;)</code></pre>
-<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-21-1.png" width="624" /></p>
+<p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-20-1.png" width="624" /></p>
 <p>Depending on which height the graph is cut at, different numbers of
 tree clusters are created. This visualization can help us better
 understand how similar or dissimilar groups of trees are to one another,
@@ -1037,13 +997,13 @@ learnr:::store_exercise_cache(structure(list(label = "exercise2", global_setup =
 "library(learnr)", "library(gradethis)", "library(psych)", "knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)", 
 "knitr::opts_chunk$set(echo = TRUE)", "learnr::tutorial_options(", 
 "  exercise.timelimit = 60)"), chunk_opts = list(label = "setup", 
-    include = FALSE)), setup = "FruitList <- read.csv(\"D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/FruitList.csv\")\nhead(FruitList)\nstr(FruitList)", 
-    chunks = list(list(label = "prepare-fruitlist", code = "FruitList <- read.csv(\"D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/FruitList.csv\")\nhead(FruitList)\nstr(FruitList)", 
-        opts = list(label = "\"prepare-fruitlist\""), engine = "r"), 
-        list(label = "exercise2", code = "", opts = list(label = "\"exercise2\"", 
-            exercise.setup = "\"prepare-fruitlist\"", exercise = "TRUE"), 
-            engine = "r")), code_check = NULL, error_check = NULL, 
-    check = structure("grade_code(\"Excellent!\")", chunk_opts = list(
+    include = FALSE)), setup = "ByFruit <- FruitList %>% group_by(CODE) %>% count() %>% arrange(desc(n))\nByFruit", 
+    chunks = list(list(label = "prepare-byfruit", code = "ByFruit <- FruitList %>% group_by(CODE) %>% count() %>% arrange(desc(n))\nByFruit", 
+        opts = list(label = "\"prepare-byfruit\"", eval = "TRUE", 
+            echo = "TRUE"), engine = "r"), list(label = "exercise2", 
+        code = "", opts = list(label = "\"exercise2\"", exercise.setup = "\"prepare-byfruit\"", 
+            exercise = "TRUE"), engine = "r")), code_check = NULL, 
+    error_check = NULL, check = structure("grade_code(\"Excellent!\")", chunk_opts = list(
         label = "exercise2-check")), solution = structure("ggplot(ByFruit, aes(x=reorder(CODE,n),y=n)) + geom_bar(stat=\"identity\") +coord_flip() +ggtitle(\"Frequency of fruit mentions\") + labs(x=\"Fruit\", y=\"n\")", chunk_opts = list(
         label = "exercise2-solution")), tests = NULL, options = list(
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
@@ -1063,9 +1023,9 @@ learnr:::store_exercise_cache(structure(list(label = "exercise2", global_setup =
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
-        label = "exercise2", exercise.setup = "prepare-fruitlist", 
+        label = "exercise2", exercise.setup = "prepare-byfruit", 
         exercise = TRUE, code = "", out.width.px = 624, out.height.px = 384, 
-        params.src = "exercise2, exercise.setup=\"prepare-fruitlist\", exercise=TRUE", 
+        params.src = "exercise2, exercise.setup=\"prepare-byfruit\", exercise=TRUE", 
         fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -1084,20 +1044,18 @@ learnr:::store_exercise_cache(structure(list(label = "exercise3", global_setup =
 "knitr::opts_chunk$set(echo = TRUE)", "learnr::tutorial_options(", 
 "  exercise.timelimit = 60)"), chunk_opts = list(label = "setup", 
     include = FALSE)), setup = "FruitListSalience <- CalculateSalience(FruitList,Order=\"Order\",Subj=\"Subj\",CODE=\"CODE\")\n# Note: I have included the arguments for Order, Subj and CODE for illustrative purposes. Because these column names match the arguments, you do not actually need to include them in this case. However, when you are working with your own datasets you may have different column names, so it is helpful to keep the underlying structure of functions in mind when you deploy them.\nFruitListSalience", 
-    chunks = list(list(label = "new-fruitlist", code = "FruitListSalience <- CalculateSalience(FruitList,Order=\"Order\",Subj=\"Subj\",CODE=\"CODE\")\n# Note: I have included the arguments for Order, Subj and CODE for illustrative purposes. Because these column names match the arguments, you do not actually need to include them in this case. However, when you are working with your own datasets you may have different column names, so it is helpful to keep the underlying structure of functions in mind when you deploy them.\nFruitListSalience", 
-        opts = list(label = "\"new-fruitlist\""), engine = "r"), 
+    chunks = list(list(label = "prepare-salience", code = "FruitListSalience <- CalculateSalience(FruitList,Order=\"Order\",Subj=\"Subj\",CODE=\"CODE\")\n# Note: I have included the arguments for Order, Subj and CODE for illustrative purposes. Because these column names match the arguments, you do not actually need to include them in this case. However, when you are working with your own datasets you may have different column names, so it is helpful to keep the underlying structure of functions in mind when you deploy them.\nFruitListSalience", 
+        opts = list(label = "\"prepare-salience\""), engine = "r"), 
         list(label = "exercise3", code = "\n\n", opts = list(
-            label = "\"exercise3\"", exercise.setup = "\"new-fruitlist\"", 
+            label = "\"exercise3\"", exercise.setup = "\"prepare-salience\"", 
             exercise = "TRUE"), engine = "r")), code_check = NULL, 
     error_check = NULL, check = structure("grade_code(\"Excellent!\")", chunk_opts = list(
-        label = "exercise3-check")), solution = structure(c("SalienceByFruit <- SalienceByCode(FruitListSalience,dealWithDoubles=\"MAX\") ", 
-    "# The dealwithdoubles argument tells R what to do if a respondent lists the same item twice. There are a few different options available for this, the right one to pick will depend on your data and research question.", 
-    "  "), chunk_opts = list(label = "exercise3-solution")), 
-    tests = NULL, options = list(eval = FALSE, echo = TRUE, results = "markup", 
-        tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
-        comment = NA, highlight = FALSE, size = "normalsize", 
-        background = "#F7F7F7", strip.white = TRUE, cache = 0, 
-        cache.path = "Cultural-Domain-Analysis_cache/html/", 
+        label = "exercise3-check")), solution = structure("SalienceByFruit <- SalienceByCode(FruitListSalience,dealWithDoubles=\"MAX\") ", chunk_opts = list(
+        label = "exercise3-solution")), tests = NULL, options = list(
+        eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
+        tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
+        highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
+        strip.white = TRUE, cache = 0, cache.path = "Cultural-Domain-Analysis_cache/html/", 
         cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
         autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
         fig.show = "asis", fig.align = "default", fig.path = "Cultural-Domain-Analysis_files/figure-html/", 
@@ -1111,9 +1069,9 @@ learnr:::store_exercise_cache(structure(list(label = "exercise3", global_setup =
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
-        label = "exercise3", exercise.setup = "new-fruitlist", 
+        label = "exercise3", exercise.setup = "prepare-salience", 
         exercise = TRUE, out.width.px = 624, out.height.px = 384, 
-        params.src = "exercise3, exercise.setup=\"new-fruitlist\", exercise=TRUE", 
+        params.src = "exercise3, exercise.setup=\"prepare-salience\", exercise=TRUE", 
         fig.num = 0L, exercise.df_print = "paged"), engine = "r", 
     version = "4"), class = c("r", "tutorial_exercise")))
 </script>
@@ -1139,7 +1097,6 @@ learnr:::store_exercise_cache(structure(list(label = "exercise4", global_setup =
             exercise = "TRUE"), engine = "r")), code_check = NULL, 
     error_check = NULL, check = structure("grade_code(\"Excellent!\")", chunk_opts = list(
         label = "exercise4-check")), solution = structure(c("FL1 <- CalculateSalience(WorldList, Order=\"Order\",Subj=\"Subj\",CODE=\"CODE\",GROUPING=\"GROUPING\")", 
-    "#Note, this function will not run without adding in the GROUPING argument.", 
     "FL2<- SalienceByCode(FL1,GROUPING=\"GROUPING\",dealWithDoubles = \"MAX\")"
     ), chunk_opts = list(label = "exercise4-solution")), tests = NULL, 
     options = list(eval = FALSE, echo = TRUE, results = "markup", 
