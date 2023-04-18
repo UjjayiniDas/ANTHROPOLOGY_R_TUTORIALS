@@ -31,7 +31,7 @@ library(htmltools)
           a(
             class="list-group-item",
             "RTutorial Intro2",
-            href="RTutorial Intro2"
+            href="RTutorial_Intro2"
           ),
           a(
             class="list-group-item",
