@@ -1,8 +1,10 @@
 name: "Anthropology R Tutorials"
 navbar:
-  title: "BSOS R Tutorials"
+  title: "Anthropology R Tutorials"
   left:
-    - text: "Home"
+    - text: "All Tutorial Collections"
+      href: "../.."
+    - text: "Anthropology Home"
       href: index.html
     - text: "About"
       href: about.html
