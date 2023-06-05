@@ -281,13 +281,18 @@ calculation function that can do the math for us. The code below
 calculates the salience of each fruit listed in the context of each
 individual interviewee.</p>
 <pre class="r"><code>FruitListSalience &lt;- CalculateSalience(FruitList,Order=&quot;Order&quot;,Subj=&quot;Subj&quot;,CODE=&quot;CODE&quot;)
-# Note: I have included the arguments for Order, Subj and CODE for illustrative purposes. Because these column names match the arguments, you do not actually need to include them in this case. However, when you are working with your own datasets you may have different column names, so it is helpful to keep the underlying structure of functions in mind when you deploy them.
 FruitListSalience</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["X"],"name":[1],"type":["int"],"align":["right"]},{"label":["Subj"],"name":[2],"type":["int"],"align":["right"]},{"label":["Order"],"name":[3],"type":["int"],"align":["right"]},{"label":["CODE"],"name":[4],"type":["chr"],"align":["left"]},{"label":["Salience"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1","3":"1","4":"pear","5":"1.0000000"},{"1":"2","2":"1","3":"2","4":"orange","5":"0.6666667"},{"1":"3","2":"1","3":"3","4":"apple","5":"0.3333333"},{"1":"4","2":"2","3":"1","4":"apple","5":"1.0000000"},{"1":"5","2":"2","3":"2","4":"apple","5":"0.6666667"},{"1":"6","2":"2","3":"3","4":"strawberry","5":"0.3333333"},{"1":"7","2":"3","3":"1","4":"banana","5":"1.0000000"},{"1":"8","2":"3","3":"2","4":"strawberry","5":"0.5000000"},{"1":"9","2":"4","3":"1","4":"apple","5":"1.0000000"},{"1":"10","2":"4","3":"2","4":"plum","5":"0.8000000"},{"1":"11","2":"4","3":"3","4":"banana","5":"0.6000000"},{"1":"12","2":"4","3":"4","4":"orange","5":"0.4000000"},{"1":"13","2":"4","3":"5","4":"apple","5":"0.2000000"},{"1":"14","2":"5","3":"1","4":"strawberry","5":"1.0000000"},{"1":"15","2":"5","3":"2","4":"apple","5":"0.6666667"},{"1":"16","2":"5","3":"3","4":"apple","5":"0.3333333"},{"1":"17","2":"6","3":"1","4":"apple","5":"1.0000000"},{"1":"18","2":"6","3":"2","4":"lemon","5":"0.6666667"},{"1":"19","2":"6","3":"3","4":"apple","5":"0.3333333"},{"1":"20","2":"7","3":"1","4":"banana","5":"1.0000000"},{"1":"21","2":"7","3":"2","4":"plum","5":"0.7500000"},{"1":"22","2":"7","3":"3","4":"lemon","5":"0.5000000"},{"1":"23","2":"7","3":"4","4":"lemon","5":"0.2500000"},{"1":"24","2":"8","3":"1","4":"strawberry","5":"1.0000000"},{"1":"25","2":"8","3":"2","4":"apple","5":"0.7500000"},{"1":"26","2":"8","3":"3","4":"pear","5":"0.5000000"},{"1":"27","2":"8","3":"4","4":"apple","5":"0.2500000"},{"1":"28","2":"9","3":"1","4":"apple","5":"1.0000000"},{"1":"29","2":"9","3":"2","4":"apple","5":"0.6666667"},{"1":"30","2":"9","3":"3","4":"plum","5":"0.3333333"},{"1":"31","2":"10","3":"1","4":"apple","5":"1.0000000"},{"1":"32","2":"10","3":"2","4":"pear","5":"0.6666667"},{"1":"33","2":"10","3":"3","4":"apple","5":"0.3333333"},{"1":"34","2":"11","3":"1","4":"apple","5":"1.0000000"},{"1":"35","2":"11","3":"2","4":"strawberry","5":"0.8000000"},{"1":"36","2":"11","3":"3","4":"banana","5":"0.6000000"},{"1":"37","2":"11","3":"4","4":"apple","5":"0.4000000"},{"1":"38","2":"11","3":"5","4":"lemon","5":"0.2000000"},{"1":"39","2":"12","3":"1","4":"apple","5":"1.0000000"},{"1":"40","2":"12","3":"2","4":"orange","5":"0.8000000"},{"1":"41","2":"12","3":"3","4":"pear","5":"0.6000000"},{"1":"42","2":"12","3":"4","4":"apple","5":"0.4000000"},{"1":"43","2":"12","3":"5","4":"orange","5":"0.2000000"},{"1":"44","2":"13","3":"1","4":"plum","5":"1.0000000"},{"1":"45","2":"13","3":"2","4":"peach","5":"0.7500000"},{"1":"46","2":"13","3":"3","4":"strawberry","5":"0.5000000"},{"1":"47","2":"13","3":"4","4":"banana","5":"0.2500000"},{"1":"48","2":"14","3":"1","4":"pear","5":"1.0000000"},{"1":"49","2":"14","3":"2","4":"apple","5":"0.8000000"},{"1":"50","2":"14","3":"3","4":"banana","5":"0.6000000"},{"1":"51","2":"14","3":"4","4":"pear","5":"0.4000000"},{"1":"52","2":"14","3":"5","4":"strawberry","5":"0.2000000"},{"1":"53","2":"15","3":"1","4":"plum","5":"1.0000000"},{"1":"54","2":"15","3":"2","4":"strawberry","5":"0.6666667"},{"1":"55","2":"15","3":"3","4":"apple","5":"0.3333333"},{"1":"56","2":"16","3":"1","4":"banana","5":"1.0000000"},{"1":"57","2":"16","3":"2","4":"plum","5":"0.8000000"},{"1":"58","2":"16","3":"3","4":"plum","5":"0.6000000"},{"1":"59","2":"16","3":"4","4":"pear","5":"0.4000000"},{"1":"60","2":"16","3":"5","4":"pear","5":"0.2000000"},{"1":"61","2":"17","3":"1","4":"orange","5":"1.0000000"},{"1":"62","2":"17","3":"2","4":"apple","5":"0.5000000"},{"1":"63","2":"18","3":"1","4":"peach","5":"1.0000000"},{"1":"64","2":"18","3":"2","4":"banana","5":"0.8000000"},{"1":"65","2":"18","3":"3","4":"orange","5":"0.6000000"},{"1":"66","2":"18","3":"4","4":"pear","5":"0.4000000"},{"1":"67","2":"18","3":"5","4":"apple","5":"0.2000000"},{"1":"68","2":"19","3":"1","4":"pear","5":"1.0000000"},{"1":"69","2":"19","3":"2","4":"lemon","5":"0.6666667"},{"1":"70","2":"19","3":"3","4":"strawberry","5":"0.3333333"},{"1":"71","2":"20","3":"1","4":"plum","5":"1.0000000"},{"1":"72","2":"20","3":"2","4":"apple","5":"0.8000000"},{"1":"73","2":"20","3":"3","4":"plum","5":"0.6000000"},{"1":"74","2":"20","3":"4","4":"orange","5":"0.4000000"},{"1":"75","2":"20","3":"5","4":"apple","5":"0.2000000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
+<p><em>Note: The arguments are included for Order, Subj and CODE for
+illustrative purposes. Because these column names match the arguments,
+you do not actually need to include them in this case. However, when you
+are working with your own datasets you may have different column names,
+so it is helpful to keep the underlying structure of functions in mind
+when you deploy them.</em></p>
 <p>The above code calculates the salience for each item by respondent.
 If you inspect the results, you’ll see that the first item in each list
 has a salience of 1, with each subsequent item decreasing in relative
@@ -305,11 +310,6 @@ data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0">
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":true,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
 </div>
-<div class="tutorial-exercise-support" data-label="exercise3-solution"
-data-completion="1" data-diagnostics="1" data-startover="1"
-data-lines="0">
-<pre class="text"><code>SalienceByFruit &lt;- SalienceByCode(FruitListSalience,dealWithDoubles=&quot;MAX&quot;) </code></pre>
-</div>
 <p><em>The <code>dealwithdoubles</code> argument tells R what to do if a
 respondent lists the same item twice. There are a few different options
 available for this, the right one to pick will depend on your data and
@@ -317,7 +317,8 @@ research question.</em></p>
 <p>From this analysis we can see that there are slight differences in
 the mean salience and Smith’s S. Smith’s S considers the length of lists
 in its calculation of salience (More info <a
-href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3551534/">here</a>.</p>
+href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3551534/">here</a>
+).</p>
 <p>Now let’s plot the Smith’s S results in decreasing order and add a
 vertical line at the 0.1 mark. This range is generally considered a
 benchmark level for assessing item salience in freelists.</p>
@@ -1043,19 +1044,20 @@ learnr:::store_exercise_cache(structure(list(label = "exercise3", global_setup =
 "library(learnr)", "library(gradethis)", "library(psych)", "knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)", 
 "knitr::opts_chunk$set(echo = TRUE)", "learnr::tutorial_options(", 
 "  exercise.timelimit = 60)"), chunk_opts = list(label = "setup", 
-    include = FALSE)), setup = "FruitListSalience <- CalculateSalience(FruitList,Order=\"Order\",Subj=\"Subj\",CODE=\"CODE\")\n# Note: I have included the arguments for Order, Subj and CODE for illustrative purposes. Because these column names match the arguments, you do not actually need to include them in this case. However, when you are working with your own datasets you may have different column names, so it is helpful to keep the underlying structure of functions in mind when you deploy them.\nFruitListSalience", 
-    chunks = list(list(label = "prepare-salience", code = "FruitListSalience <- CalculateSalience(FruitList,Order=\"Order\",Subj=\"Subj\",CODE=\"CODE\")\n# Note: I have included the arguments for Order, Subj and CODE for illustrative purposes. Because these column names match the arguments, you do not actually need to include them in this case. However, when you are working with your own datasets you may have different column names, so it is helpful to keep the underlying structure of functions in mind when you deploy them.\nFruitListSalience", 
-        opts = list(label = "\"prepare-salience\""), engine = "r"), 
-        list(label = "exercise3", code = "\n\n", opts = list(
-            label = "\"exercise3\"", exercise.setup = "\"prepare-salience\"", 
+    include = FALSE)), setup = "FruitListSalience <- CalculateSalience(FruitList,Order=\"Order\",Subj=\"Subj\",CODE=\"CODE\")\nFruitListSalience", 
+    chunks = list(list(label = "prepare-salience", code = "FruitListSalience <- CalculateSalience(FruitList,Order=\"Order\",Subj=\"Subj\",CODE=\"CODE\")\nFruitListSalience", 
+        opts = list(label = "\"prepare-salience\"", eval = "TRUE", 
+            echo = "TRUE"), engine = "r"), list(label = "exercise3", 
+        code = "\n\n", opts = list(label = "\"exercise3\"", exercise.setup = "\"prepare-salience\"", 
             exercise = "TRUE"), engine = "r")), code_check = NULL, 
-    error_check = NULL, check = structure("grade_code(\"Excellent!\")", chunk_opts = list(
-        label = "exercise3-check")), solution = structure("SalienceByFruit <- SalienceByCode(FruitListSalience,dealWithDoubles=\"MAX\") ", chunk_opts = list(
-        label = "exercise3-solution")), tests = NULL, options = list(
-        eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
-        tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
-        highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "Cultural-Domain-Analysis_cache/html/", 
+    error_check = NULL, check = structure(c("grade_result(", 
+    "  pass_if(~ identical(.result, SalienceByCode(FruitListSalience,dealWithDoubles=\"MAX\")), \"Good Job!\"),", 
+    "  fail_if(~ TRUE)", ")"), chunk_opts = list(label = "exercise3-check")), 
+    solution = NULL, tests = NULL, options = list(eval = FALSE, 
+        echo = TRUE, results = "markup", tidy = FALSE, tidy.opts = NULL, 
+        collapse = FALSE, prompt = FALSE, comment = NA, highlight = FALSE, 
+        size = "normalsize", background = "#F7F7F7", strip.white = TRUE, 
+        cache = 0, cache.path = "Cultural-Domain-Analysis_cache/html/", 
         cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
         autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
         fig.show = "asis", fig.align = "default", fig.path = "Cultural-Domain-Analysis_files/figure-html/", 
