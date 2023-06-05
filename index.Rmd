@@ -1,0 +1,52 @@
+
+```{r, echo=FALSE}
+library(htmltools)
+```
+
+```{r, echo=FALSE}
+    div(class="row",
+      div(class="col-sm-3",
+        div(
+          class="list-group",
+          a(
+            class="list-group-item",
+            "ANTH630_EDA",
+            href="ANTH630_EDA"
+          ),
+          a(
+            class="list-group-item",
+            "Cultural Domain Analysis",
+            href="Cultural Domain Analysis"
+          ),
+          a(
+            class="list-group-item",
+            "Getting Started with R",
+            href="Getting Started with R"
+          ),
+          a(
+            class="list-group-item",
+            "Getting Started with R Markdown",
+            href="Getting Started with R Markdown"
+          ),
+          a(
+            class="list-group-item",
+            "RTutorial Intro2",
+            href="RTutorial_Intro2"
+          ),
+          a(
+            class="list-group-item",
+            "rtutorial4",
+            href="rtutorial4"
+          )
+        ),
+      ),
+      div(
+        class="col-sm-9",
+        h2("Anthropology R Tutorials"),
+        p("Welcome to the Anthropology R Tutorials collection Here you can find links to tutorials. They are on the left sidebar, or, if you're using a small screen, they are above.")
+      )
+    )
+
+
+
+```
