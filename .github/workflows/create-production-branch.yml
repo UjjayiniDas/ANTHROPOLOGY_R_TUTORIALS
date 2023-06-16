@@ -25,5 +25,5 @@ jobs:
           git add .
           git commit -m "build production branch"
       - name: force replacemnt of production branch in remote repository
-          git push origin production --force-with-lease
+        run: git push origin production --force-with-lease
       - run: echo " This job's status is ${{job.status}}."
