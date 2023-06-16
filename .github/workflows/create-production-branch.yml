@@ -14,8 +14,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - run: echo " The ${{ github.repository }} repository has been cloned to the runner."
-      - name: Delete current production branch
-        run: git branch -D production
       - name: Create new production branch
         run: |
           git checkout -b production
