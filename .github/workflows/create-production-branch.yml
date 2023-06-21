@@ -16,7 +16,11 @@ jobs:
       - run: echo " The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "Create new production branch"
       - run: git checkout -b production
-      - run: rm *
+      - run: echo "Removing all files except those that start with '.' and those"
+      - run: echo "that are in the _site directory and _site.yml"
+      - run: find . -not -path "./.*" -a -not -path "./_site*" -delete
+      - run: echo "remove _site.yml"
+      - run: rm _site.yml
       - run: mv _site/* .
       - run: rm -r _site
       - run: git add .
