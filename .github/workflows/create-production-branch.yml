@@ -23,6 +23,10 @@ jobs:
       - run: rm _site.yml
       - run: mv _site/* .
       - run: rm -r _site
+      - name: Set git credentials
+        run: |
+            git config --global user.email "joehoskisson@gmail.com"
+            git config --global user.name "Joe Hoskisson"
       - run: git add .
       - run: git commit -m "build production branch"
       - name: force replacemnt of production branch in remote repository
