@@ -44,7 +44,7 @@ library(tidyr)
 Second, let's load the data we plan to use and assign it a name. Here we will load the `FruitList` data. Take a look at the `head()` and `str()` of this spreadsheet. How do you think the data have been organized? What do the rows and columns represent?
 
 ```{r prepare-fruitlist}
-FruitList <- read.csv("D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/FruitList.csv")
+FruitList <- read.csv("../data/FruitList.csv")
 head(FruitList)
 str(FruitList)
 ```
