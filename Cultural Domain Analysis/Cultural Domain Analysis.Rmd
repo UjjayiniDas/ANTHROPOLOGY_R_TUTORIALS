@@ -73,7 +73,7 @@ From these few operations we now know a bit more about the dataset. There are 20
 Next, let's calculate the average number of fruits named per person and explore the distribution of list lengths across responses.
 
 ```{r echo= -1}
-FruitList <- read.csv("D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/FruitList.csv")
+FruitList <- read.csv("../data/FruitList.csv")
 # How many responses per subject
 FruitList %>% group_by(Subj) %>% count()
 # What is the average number of responses per subject?
@@ -320,7 +320,7 @@ This plot shows us which fruits are more central to the domain "fruits" across a
 In addition to freelist data, pile sorts are a common tool used in cultural domain analysis. I've made a sample dataset of pilesorts of 40 trees from 9 individuals. You can load the data in the same way we loaded the fruitlist data. We are doing a bit of data wrangling to get the data into the right format for MDS scaling. Hopefully this helps you understand a bit about how data can be shaped and reshaped no matter what form it comes to you in!
 
 ```{r prepare-pilesort, results='hide'}
-treepilesort <- read.csv("D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/pilesort_sampledata.csv")
+treepilesort <- read.csv("../data/pilesort_sampledata.csv")
 rownames(treepilesort) <- treepilesort$Tree
 # Remove tree column
 treepilesort <- treepilesort[,-1]
