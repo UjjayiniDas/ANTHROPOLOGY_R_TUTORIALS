@@ -30,7 +30,7 @@ Load in data and examine the structure.
 
 ```{r prepare-cityinfo, include=TRUE}
 
-CityInfo  <- read.csv("D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/Cityinfo.csv")
+CityInfo  <- read.csv("../data/Cityinfo.csv")
 str(CityInfo)
 ```
 
@@ -154,7 +154,7 @@ These data are sea otter counts from 2017 and 2018 in Alaska.
 
 First read in and examine the data.
 ```{r prepare-otter}
-otter <- read.csv("D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/sea_otter_counts_2017&2018_CLEANDATA.csv")
+otter <- read.csv("../data/sea_otter_counts_2017&2018_CLEANDATA.csv")
 str(otter)
 ```
 

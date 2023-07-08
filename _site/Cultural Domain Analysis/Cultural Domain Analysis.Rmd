@@ -144,11 +144,13 @@ One of the main insights than can be learned from freelist data is the relative 
 
 Luckily, the package `AnthroTools` has a built in salience calculation function that can do the math for us. The code below calculates the salience of each fruit listed in the context of each individual interviewee.
 
-```{r prepare-salience}
+```{r prepare-salience, eval=TRUE, echo=TRUE}
 FruitListSalience <- CalculateSalience(FruitList,Order="Order",Subj="Subj",CODE="CODE")
-# Note: I have included the arguments for Order, Subj and CODE for illustrative purposes. Because these column names match the arguments, you do not actually need to include them in this case. However, when you are working with your own datasets you may have different column names, so it is helpful to keep the underlying structure of functions in mind when you deploy them.
 FruitListSalience
 ```
+
+*Note: The arguments are included for Order, Subj and CODE for illustrative purposes. Because these column names match the arguments, you do not actually need to include them in this case. However, when you are working with your own datasets you may have different column names, so it is helpful to keep the underlying structure of functions in mind when you deploy them.*
+
 The above code calculates the salience for each item by respondent. If you inspect the results, you'll see that the first item in each list has a salience of 1, with each subsequent item decreasing in relative salience. This is useful for understanding how an individual thinks about the domain of fruits, but what if we are interested in knowing how salient **apples** are across all responses? We can calculate the salience of particular items as well with the SalienceByCode() function. 
 
 ### Try it
@@ -158,17 +160,18 @@ Try running the `SalienceByCode()` function on the new salience dataframe we mad
 ```{r exercise3, exercise.setup="prepare-salience", exercise=TRUE}
 ```
 
-```{r exercise3-solution}
-SalienceByFruit <- SalienceByCode(FruitListSalience,dealWithDoubles="MAX") 
-```
 
 ```{r exercise3-check}
-grade_code("Excellent!")
+grade_result(
+  pass_if(~ identical(.result, SalienceByCode(FruitListSalience,dealWithDoubles="MAX")), "Good Job!"),
+  fail_if(~ TRUE)
+)
 ```
+
 
 *The `dealwithdoubles` argument tells R what to do if a respondent lists the same item twice. There are a few different options available for this, the right one to pick will depend on your data and research question.*
   
-From this analysis we can see that there are slight differences in the mean salience and Smith's S. Smith's S considers the length of lists in its calculation of salience (More info [here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3551534/). 
+From this analysis we can see that there are slight differences in the mean salience and Smith's S. Smith's S considers the length of lists in its calculation of salience (More info [here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3551534/) ). 
 
 Now let's plot the Smith's S results in decreasing order and add a vertical line at the 0.1 mark. This range is generally considered a benchmark level for assessing item salience in freelists.
 
