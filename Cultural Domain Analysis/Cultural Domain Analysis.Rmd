@@ -3,6 +3,7 @@ title: "Cultural Domain Analysis and MDS"
 output: 
   learnr::tutorial:
     progressive: true
+    allow_skip: true
 runtime: shiny_prerendered
 tutorial:
   id: "CDA"
@@ -15,11 +16,12 @@ library(learnr)
 library(gradethis)
 library(psych)
 knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 learnr::tutorial_options(
   exercise.timelimit = 60)
 ```
 
+Before diving into today's topic, here is a list of useful links that might come handy later.
 
 ## Useful links
 - [Freelisting slides from Analytic Technologies](http://www.analytictech.com/mb870/slides/Freelisting.pdf)
@@ -27,7 +29,6 @@ learnr::tutorial_options(
 - [Research Methods in Anthropology by Russell Bernard](https://books.google.com/books?id=2Fk7DwAAQBAJ&printsec=frontcover&source=gbs_ge_summary_r&cad=0#v=onepage&q&f=false)
 - [Pile sort slides from Borgatti](http://www.analytictech.com/borgatti/etk3.htm)
 
-<a class="btn btn-primary btn-sm" href="https://maddiebrown.github.io/ANTH630/ANTH630syllabus.html" role="button">ANTH630 Home</a>
 
 ## Getting started
 
@@ -94,7 +95,7 @@ table(BySubject$n)
 
 Next, let's analyze how frequently each fruit was mentioned. For this analysis we are going to create a new dataframe object called 'ByFruit' that groups the data according to each unique fruit and counts the number of rows.
 
-```{r prepare-byfruit, eval=TRUE, echo=TRUE}
+```{r prepare-byfruit}
 ByFruit <- FruitList %>% group_by(CODE) %>% count() %>% arrange(desc(n))
 ByFruit
 ```
