@@ -3,6 +3,7 @@ title: "Getting Started with R"
 output: 
   learnr::tutorial:
     progressive: true
+    allow_skip: true
 runtime: shiny_prerendered
 tutorial:
   id: "StartR"
@@ -15,7 +16,7 @@ library(learnr)
 library(gradethis)
 library(psych)
 knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 learnr::tutorial_options(
   exercise.timelimit = 60)
 ```

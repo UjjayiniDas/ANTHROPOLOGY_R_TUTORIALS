@@ -11,7 +11,7 @@
 
 
 <meta name="progressive" content="true" />
-<meta name="allow-skip" content="false" />
+<meta name="allow-skip" content="true" />
 <meta name="learnr-version-prerender" content="0.11.2.9000" />
 
 <title>Getting Started with R Markdown</title>
@@ -109,19 +109,23 @@ if (window.hljs) {
 
 <article class="topics" id="learnr-tutorial-content">
 
-<p><a class="btn btn-primary btn-sm" href="https://maddiebrown.github.io/ANTH630/ANTH630syllabus.html" role="button">ANTH630
-Home</a></p>
 <div id="section-intro" class="section level2">
 <h2>Intro</h2>
+<div id="section-section" class="section level3">
+<h3></h3>
 <p>With R Markdown you can typeset documents and code snippets.
 Organizing your problem sets into R Notebooks can be a clear way to
 present your process and results. This tutorial will help you get
-started. Download this code sourcefile to see how this document is
-made.</p>
+started.</p>
+<p>Before moving on, click the button below to see the course
+overview.</p>
+<p><a class="btn btn-primary btn-sm" href="https://maddiebrown.github.io/ANTH630/ANTH630syllabus.html" role="button">ANTH630
+Home</a></p>
+</div>
 </div>
 <div id="section-headings" class="section level2">
 <h2>Headings</h2>
-<div id="section-section" class="section level3">
+<div id="section-section-1" class="section level3">
 <h3></h3>
 <p>Basic formatting is done following markdown conventions.</p>
 <p><code># Heading 1</code></p>
@@ -150,7 +154,7 @@ tabbed twice.</p>
 </div>
 <div id="section-text-style" class="section level2">
 <h2>Text Style</h2>
-<div id="section-section-1" class="section level3">
+<div id="section-section-2" class="section level3">
 <h3></h3>
 <p>You can also adjust text style.</p>
 <p><code>**bold**</code></p>
@@ -161,7 +165,7 @@ tabbed twice.</p>
 </div>
 <div id="section-links-and-buttons" class="section level2">
 <h2>Links and buttons</h2>
-<div id="section-section-2" class="section level3">
+<div id="section-section-3" class="section level3">
 <h3></h3>
 <p>Links are added using square brackets followed by parentheses.</p>
 <p><code>[UMD Anthro](https://anth.umd.edu/)</code></p>
@@ -174,7 +178,7 @@ Anthro</a></p>
 </div>
 <div id="section-lists" class="section level2">
 <h2>Lists</h2>
-<div id="section-section-3" class="section level3">
+<div id="section-section-4" class="section level3">
 <h3></h3>
 <p>There are several ways to add lists. They can be customized with
 bullets, numbers, and nesting.</p>
@@ -206,7 +210,7 @@ bullets, numbers, and nesting.</p>
 </div>
 <div id="section-r-code-chunks" class="section level2">
 <h2>R code chunks</h2>
-<div id="section-section-4" class="section level3">
+<div id="section-section-5" class="section level3">
 <h3></h3>
 <p>R code chunks are initiated with <code>```{r}</code> and ended with
 <code>```</code>. Any code in between these strings will be executed as
@@ -229,7 +233,7 @@ starwars %&gt;% group_by(species) %&gt;% summarise(num_char=n()) %&gt;% arrange(
 </div>
 <div id="section-next-steps" class="section level2">
 <h2>Next steps</h2>
-<div id="section-section-5" class="section level3">
+<div id="section-section-6" class="section level3">
 <h3></h3>
 <p>There are numerous themes that can be applied to R Markdown
 documents. <a href="https://bootswatch.com/">Themes</a> (also <a
@@ -243,7 +247,7 @@ of R markdown products.</p>
 </div>
 <div id="section-additional-resources" class="section level2">
 <h2>Additional resources</h2>
-<div id="section-section-6" class="section level3">
+<div id="section-section-7" class="section level3">
 <h3></h3>
 <ul>
 <li><a href="https://bookdown.org/yihui/rmarkdown/">R Markdown: The
@@ -264,7 +268,7 @@ library(gradethis)
 library(tidyverse)
 library(dplyr)
 knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 learnr::tutorial_options(
   exercise.timelimit = 60)
 </script>

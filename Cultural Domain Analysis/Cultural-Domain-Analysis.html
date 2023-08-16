@@ -11,7 +11,7 @@
 
 
 <meta name="progressive" content="true" />
-<meta name="allow-skip" content="false" />
+<meta name="allow-skip" content="true" />
 <meta name="learnr-version-prerender" content="0.11.2.9000" />
 
 <title>Cultural Domain Analysis and MDS</title>
@@ -109,6 +109,8 @@ if (window.hljs) {
 
 <article class="topics" id="learnr-tutorial-content">
 
+<p>Before diving into today’s topic, here is a list of useful links that
+might come handy later.</p>
 <div id="section-useful-links" class="section level2">
 <h2>Useful links</h2>
 <ul>
@@ -122,8 +124,6 @@ Methods in Anthropology by Russell Bernard</a></li>
 <li><a href="http://www.analytictech.com/borgatti/etk3.htm">Pile sort
 slides from Borgatti</a></li>
 </ul>
-<p><a class="btn btn-primary btn-sm" href="https://maddiebrown.github.io/ANTH630/ANTH630syllabus.html" role="button">ANTH630
-Home</a></p>
 </div>
 <div id="section-getting-started" class="section level2">
 <h2>Getting started</h2>
@@ -383,8 +383,6 @@ percentage of respondents from each group who named a particular item.
 The code below creates a new object where the data are grouped according
 to the GROUPING variable.</p>
 <pre class="r"><code>frequencybygroup &lt;- WorldList %&gt;% group_by(GROUPING) %&gt;% mutate(GroupN=length(unique(Subj))) %&gt;% ungroup %&gt;% group_by(GROUPING, CODE, GroupN) %&gt;% summarise(totalResponses=n(),nRespondents=length(unique(Subj)),percentRespondents=round(length(unique(Subj))/first(GroupN)*100,2)) %&gt;% arrange(GROUPING, desc(percentRespondents))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;GROUPING&#39;, &#39;CODE&#39;. You can override using
-## the `.groups` argument.</code></pre>
 <p>We can then plot the results of this grouping with a facet wrap
 graph.</p>
 <pre class="r"><code>ggplot(frequencybygroup, aes(x=reorder(CODE,desc(percentRespondents)),percentRespondents)) + geom_bar(stat=&quot;identity&quot;) + coord_flip() +ggtitle(&quot;Frequency of fruit mentions by site&quot;) + labs(x=&quot;Fruit&quot;, y=&quot;n&quot;) + facet_wrap(vars(GROUPING))</code></pre>
@@ -404,8 +402,6 @@ class="section level2">
 shows us that the average list lengths were not very different across
 the groups, but were slightly higher in the Island population.</p>
 <pre class="r"><code>WorldList %&gt;% group_by(GROUPING,Subj) %&gt;% summarise(n=n()) %&gt;% ungroup %&gt;% group_by(GROUPING) %&gt;% summarize(nResponse=n(),avgLength=mean(n),maxLength=max(n),minLength=min(n),medianLength=median(n))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;GROUPING&#39;. You can override using the
-## `.groups` argument.</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["GROUPING"],"name":[1],"type":["chr"],"align":["left"]},{"label":["nResponse"],"name":[2],"type":["int"],"align":["right"]},{"label":["avgLength"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["maxLength"],"name":[4],"type":["int"],"align":["right"]},{"label":["minLength"],"name":[5],"type":["int"],"align":["right"]},{"label":["medianLength"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"ISLAND","2":"13","3":"3.538462","4":"5","5":"2","6":"3"},{"1":"MAINLAND","2":"17","3":"3.352941","4":"5","5":"2","6":"3"},{"1":"MOON","2":"14","3":"3.285714","4":"5","5":"2","6":"3"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -519,7 +515,6 @@ test5 &lt;- data.frame(test4$points) %&gt;% #mds coordinates
 #test5
 ## Plot results
 ggplot(test5,aes(x = X1,y = X2, label = Fruits)) +geom_text(fontface=&quot;bold&quot;,size=2.5,alpha=0.6,position=position_jitter(width=0.05, height=0.005)) + geom_point(size=NA)+labs(x=&quot;Dimension 1&quot;, y=&quot;Dimension 2&quot;) + ggtitle(&quot;MDS of FruitbyFruit&quot;)</code></pre>
-<pre><code>## Warning: Removed 8 rows containing missing values (`geom_point()`).</code></pre>
 <p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-12-1.png" width="624" /></p>
 <p>This plot shows us which fruits are more central to the domain
 “fruits” across all the respondents and which are more peripheral. The
@@ -843,7 +838,6 @@ test3</code></pre>
 </div>
 <pre class="r"><code>##plot results
 ggplot(test3,aes(x = X1,y = X2, label = Trees))+geom_text(cex=3,alpha=0.5,position=position_jitter(width=0.05, height=0.05)) + geom_point(size=NA)+labs(x=&quot;Dimension 1&quot;, y=&quot;Dimension 2&quot;) + ggtitle(&quot;MDS of Trees by Pile&quot;)</code></pre>
-<pre><code>## Warning: Removed 38 rows containing missing values (`geom_point()`).</code></pre>
 <p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-17-1.png" width="624" /></p>
 <p>This plot shows an MDS of the trees by which pile they are in. It
 shows us there are 4-5 different types of piles usually made by
@@ -863,7 +857,6 @@ test5</code></pre>
 <p>Then we can plot the results.</p>
 <pre class="r"><code>## Plot results
 ggplot(test5,aes(x = X1,y = X2, label = Trees)) +geom_text(fontface=&quot;bold&quot;,size=2,alpha=0.4,position=position_jitter(width=0.05, height=0.02)) + geom_point(size=NA)+labs(x=&quot;Dimension 1&quot;, y=&quot;Dimension 2&quot;) + ggtitle(&quot;MDS of Trees&quot;)</code></pre>
-<pre><code>## Warning: Removed 38 rows containing missing values (`geom_point()`).</code></pre>
 <p><img src="Cultural-Domain-Analysis_files/figure-html/unnamed-chunk-19-1.png" width="624" /></p>
 <p>This plot can be a bit difficult to read at times depending on how
 the labels are plotted. You can rerun the code until a more legible
@@ -912,7 +905,7 @@ library(learnr)
 library(gradethis)
 library(psych)
 knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 learnr::tutorial_options(
   exercise.timelimit = 60)
 </script>
@@ -948,9 +941,9 @@ output$`tutorial-exercise-exercise1-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "exercise1", global_setup = structure(c("library(AnthroTools)", 
 "library(learnr)", "library(gradethis)", "library(psych)", "knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)", 
-"knitr::opts_chunk$set(echo = TRUE)", "learnr::tutorial_options(", 
-"  exercise.timelimit = 60)"), chunk_opts = list(label = "setup", 
-    include = FALSE)), setup = "FruitList <- read.csv(\"D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/FruitList.csv\")\nhead(FruitList)\nstr(FruitList)", 
+"knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)", 
+"learnr::tutorial_options(", "  exercise.timelimit = 60)"), chunk_opts = list(
+    label = "setup", include = FALSE)), setup = "FruitList <- read.csv(\"D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/FruitList.csv\")\nhead(FruitList)\nstr(FruitList)", 
     chunks = list(list(label = "prepare-fruitlist", code = "FruitList <- read.csv(\"D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/FruitList.csv\")\nhead(FruitList)\nstr(FruitList)", 
         opts = list(label = "\"prepare-fruitlist\""), engine = "r"), 
         list(label = "exercise1", code = "\n\n", opts = list(
@@ -973,8 +966,8 @@ learnr:::store_exercise_cache(structure(list(label = "exercise1", global_setup =
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
         fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
         fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
-        aniopts = "controls,loop", warning = TRUE, error = FALSE, 
-        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        aniopts = "controls,loop", warning = FALSE, error = FALSE, 
+        message = FALSE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
@@ -996,15 +989,15 @@ output$`tutorial-exercise-exercise2-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "exercise2", global_setup = structure(c("library(AnthroTools)", 
 "library(learnr)", "library(gradethis)", "library(psych)", "knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)", 
-"knitr::opts_chunk$set(echo = TRUE)", "learnr::tutorial_options(", 
-"  exercise.timelimit = 60)"), chunk_opts = list(label = "setup", 
-    include = FALSE)), setup = "ByFruit <- FruitList %>% group_by(CODE) %>% count() %>% arrange(desc(n))\nByFruit", 
+"knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)", 
+"learnr::tutorial_options(", "  exercise.timelimit = 60)"), chunk_opts = list(
+    label = "setup", include = FALSE)), setup = "ByFruit <- FruitList %>% group_by(CODE) %>% count() %>% arrange(desc(n))\nByFruit", 
     chunks = list(list(label = "prepare-byfruit", code = "ByFruit <- FruitList %>% group_by(CODE) %>% count() %>% arrange(desc(n))\nByFruit", 
-        opts = list(label = "\"prepare-byfruit\"", eval = "TRUE", 
-            echo = "TRUE"), engine = "r"), list(label = "exercise2", 
-        code = "", opts = list(label = "\"exercise2\"", exercise.setup = "\"prepare-byfruit\"", 
-            exercise = "TRUE"), engine = "r")), code_check = NULL, 
-    error_check = NULL, check = structure("grade_code(\"Excellent!\")", chunk_opts = list(
+        opts = list(label = "\"prepare-byfruit\""), engine = "r"), 
+        list(label = "exercise2", code = "", opts = list(label = "\"exercise2\"", 
+            exercise.setup = "\"prepare-byfruit\"", exercise = "TRUE"), 
+            engine = "r")), code_check = NULL, error_check = NULL, 
+    check = structure("grade_code(\"Excellent!\")", chunk_opts = list(
         label = "exercise2-check")), solution = structure("ggplot(ByFruit, aes(x=reorder(CODE,n),y=n)) + geom_bar(stat=\"identity\") +coord_flip() +ggtitle(\"Frequency of fruit mentions\") + labs(x=\"Fruit\", y=\"n\")", chunk_opts = list(
         label = "exercise2-solution")), tests = NULL, options = list(
         eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
@@ -1019,8 +1012,8 @@ learnr:::store_exercise_cache(structure(list(label = "exercise2", global_setup =
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
         fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
         fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
-        aniopts = "controls,loop", warning = TRUE, error = FALSE, 
-        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        aniopts = "controls,loop", warning = FALSE, error = FALSE, 
+        message = FALSE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
@@ -1042,9 +1035,9 @@ output$`tutorial-exercise-exercise3-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "exercise3", global_setup = structure(c("library(AnthroTools)", 
 "library(learnr)", "library(gradethis)", "library(psych)", "knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)", 
-"knitr::opts_chunk$set(echo = TRUE)", "learnr::tutorial_options(", 
-"  exercise.timelimit = 60)"), chunk_opts = list(label = "setup", 
-    include = FALSE)), setup = "FruitListSalience <- CalculateSalience(FruitList,Order=\"Order\",Subj=\"Subj\",CODE=\"CODE\")\nFruitListSalience", 
+"knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)", 
+"learnr::tutorial_options(", "  exercise.timelimit = 60)"), chunk_opts = list(
+    label = "setup", include = FALSE)), setup = "FruitListSalience <- CalculateSalience(FruitList,Order=\"Order\",Subj=\"Subj\",CODE=\"CODE\")\nFruitListSalience", 
     chunks = list(list(label = "prepare-salience", code = "FruitListSalience <- CalculateSalience(FruitList,Order=\"Order\",Subj=\"Subj\",CODE=\"CODE\")\nFruitListSalience", 
         opts = list(label = "\"prepare-salience\"", eval = "TRUE", 
             echo = "TRUE"), engine = "r"), list(label = "exercise3", 
@@ -1066,8 +1059,8 @@ learnr:::store_exercise_cache(structure(list(label = "exercise3", global_setup =
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
         fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
         fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
-        aniopts = "controls,loop", warning = TRUE, error = FALSE, 
-        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        aniopts = "controls,loop", warning = FALSE, error = FALSE, 
+        message = FALSE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
@@ -1089,9 +1082,9 @@ output$`tutorial-exercise-exercise4-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "exercise4", global_setup = structure(c("library(AnthroTools)", 
 "library(learnr)", "library(gradethis)", "library(psych)", "knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)", 
-"knitr::opts_chunk$set(echo = TRUE)", "learnr::tutorial_options(", 
-"  exercise.timelimit = 60)"), chunk_opts = list(label = "setup", 
-    include = FALSE)), setup = "data(\"WorldList\")\nWorldList", 
+"knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)", 
+"learnr::tutorial_options(", "  exercise.timelimit = 60)"), chunk_opts = list(
+    label = "setup", include = FALSE)), setup = "data(\"WorldList\")\nWorldList", 
     chunks = list(list(label = "prepare-worldlist", code = "data(\"WorldList\")\nWorldList", 
         opts = list(label = "\"prepare-worldlist\""), engine = "r"), 
         list(label = "exercise4", code = "\n\n", opts = list(
@@ -1114,8 +1107,8 @@ learnr:::store_exercise_cache(structure(list(label = "exercise4", global_setup =
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
         fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
         fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
-        aniopts = "controls,loop", warning = TRUE, error = FALSE, 
-        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        aniopts = "controls,loop", warning = FALSE, error = FALSE, 
+        message = FALSE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
@@ -1137,9 +1130,9 @@ output$`tutorial-exercise-exercise5-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "exercise5", global_setup = structure(c("library(AnthroTools)", 
 "library(learnr)", "library(gradethis)", "library(psych)", "knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)", 
-"knitr::opts_chunk$set(echo = TRUE)", "learnr::tutorial_options(", 
-"  exercise.timelimit = 60)"), chunk_opts = list(label = "setup", 
-    include = FALSE)), setup = "FruitList <- read.csv(\"D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/FruitList.csv\")\nhead(FruitList)\nstr(FruitList)", 
+"knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)", 
+"learnr::tutorial_options(", "  exercise.timelimit = 60)"), chunk_opts = list(
+    label = "setup", include = FALSE)), setup = "FruitList <- read.csv(\"D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/FruitList.csv\")\nhead(FruitList)\nstr(FruitList)", 
     chunks = list(list(label = "prepare-fruitlist", code = "FruitList <- read.csv(\"D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/FruitList.csv\")\nhead(FruitList)\nstr(FruitList)", 
         opts = list(label = "\"prepare-fruitlist\""), engine = "r"), 
         list(label = "exercise5", code = "\n\n", opts = list(
@@ -1161,8 +1154,8 @@ learnr:::store_exercise_cache(structure(list(label = "exercise5", global_setup =
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
         fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
         fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
-        aniopts = "controls,loop", warning = TRUE, error = FALSE, 
-        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        aniopts = "controls,loop", warning = FALSE, error = FALSE, 
+        message = FALSE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
@@ -1184,9 +1177,9 @@ output$`tutorial-exercise-exercise6-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "exercise6", global_setup = structure(c("library(AnthroTools)", 
 "library(learnr)", "library(gradethis)", "library(psych)", "knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)", 
-"knitr::opts_chunk$set(echo = TRUE)", "learnr::tutorial_options(", 
-"  exercise.timelimit = 60)"), chunk_opts = list(label = "setup", 
-    include = FALSE)), setup = "treepilesort <- read.csv(\"D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/pilesort_sampledata.csv\")\nrownames(treepilesort) <- treepilesort$Tree\n# Remove tree column\ntreepilesort <- treepilesort[,-1]\n# Flip so rows are individual responses\nPersonbyTree <- t(treepilesort)\nPersonbyTree<-as.data.frame(PersonbyTree) # make the output into a dataframe", 
+"knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)", 
+"learnr::tutorial_options(", "  exercise.timelimit = 60)"), chunk_opts = list(
+    label = "setup", include = FALSE)), setup = "treepilesort <- read.csv(\"D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/pilesort_sampledata.csv\")\nrownames(treepilesort) <- treepilesort$Tree\n# Remove tree column\ntreepilesort <- treepilesort[,-1]\n# Flip so rows are individual responses\nPersonbyTree <- t(treepilesort)\nPersonbyTree<-as.data.frame(PersonbyTree) # make the output into a dataframe", 
     chunks = list(list(label = "prepare-pilesort", code = "treepilesort <- read.csv(\"D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/pilesort_sampledata.csv\")\nrownames(treepilesort) <- treepilesort$Tree\n# Remove tree column\ntreepilesort <- treepilesort[,-1]\n# Flip so rows are individual responses\nPersonbyTree <- t(treepilesort)\nPersonbyTree<-as.data.frame(PersonbyTree) # make the output into a dataframe", 
         opts = list(label = "\"prepare-pilesort\"", results = "\"hide\""), 
         engine = "r"), list(label = "exercise6", code = "\n\n", 
@@ -1207,8 +1200,8 @@ learnr:::store_exercise_cache(structure(list(label = "exercise6", global_setup =
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
         fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
         fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
-        aniopts = "controls,loop", warning = TRUE, error = FALSE, 
-        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        aniopts = "controls,loop", warning = FALSE, error = FALSE, 
+        message = FALSE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
@@ -1230,9 +1223,9 @@ output$`tutorial-exercise-exercise7-output` <- renderUI({
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::store_exercise_cache(structure(list(label = "exercise7", global_setup = structure(c("library(AnthroTools)", 
 "library(learnr)", "library(gradethis)", "library(psych)", "knitr::opts_chunk$set(exercise.checker = gradethis::grade_learnr)", 
-"knitr::opts_chunk$set(echo = TRUE)", "learnr::tutorial_options(", 
-"  exercise.timelimit = 60)"), chunk_opts = list(label = "setup", 
-    include = FALSE)), setup = "treepilesort <- read.csv(\"D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/pilesort_sampledata.csv\")\nrownames(treepilesort) <- treepilesort$Tree\n# Remove tree column\ntreepilesort <- treepilesort[,-1]\n# Flip so rows are individual responses\nPersonbyTree <- t(treepilesort)\nPersonbyTree<-as.data.frame(PersonbyTree) # make the output into a dataframe", 
+"knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)", 
+"learnr::tutorial_options(", "  exercise.timelimit = 60)"), chunk_opts = list(
+    label = "setup", include = FALSE)), setup = "treepilesort <- read.csv(\"D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/pilesort_sampledata.csv\")\nrownames(treepilesort) <- treepilesort$Tree\n# Remove tree column\ntreepilesort <- treepilesort[,-1]\n# Flip so rows are individual responses\nPersonbyTree <- t(treepilesort)\nPersonbyTree<-as.data.frame(PersonbyTree) # make the output into a dataframe", 
     chunks = list(list(label = "prepare-pilesort", code = "treepilesort <- read.csv(\"D:/BSOS_Anthropology_R_Tutorial/ANTHROPOLOGY_R_TUTORIALS/data/pilesort_sampledata.csv\")\nrownames(treepilesort) <- treepilesort$Tree\n# Remove tree column\ntreepilesort <- treepilesort[,-1]\n# Flip so rows are individual responses\nPersonbyTree <- t(treepilesort)\nPersonbyTree<-as.data.frame(PersonbyTree) # make the output into a dataframe", 
         opts = list(label = "\"prepare-pilesort\"", results = "\"hide\""), 
         engine = "r"), list(label = "exercise7", code = "\n\n", 
@@ -1253,8 +1246,8 @@ learnr:::store_exercise_cache(structure(list(label = "exercise7", global_setup =
         fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
         fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
         fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
-        aniopts = "controls,loop", warning = TRUE, error = FALSE, 
-        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        aniopts = "controls,loop", warning = FALSE, error = FALSE, 
+        message = FALSE, render = NULL, ref.label = NULL, child = NULL, 
         engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
         max.print = 1000, exercise.timelimit = 60, exercise.checker = "function (...) \n{\n    lifecycle::deprecate_soft(\"0.2.2\", \"grade_learnr()\", \"gradethis_exercise_checker()\")\n    gradethis_exercise_checker(...)\n}", 
         exercise.error.check.code = "gradethis_error_checker()", 
