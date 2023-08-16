@@ -1,2 +1,0 @@
-# ANTHROPOLOGY_R_TUTORIALS
-Tutorials for ANTH_630
